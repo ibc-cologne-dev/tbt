@@ -1,0 +1,53 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+type Lesson {
+  id: ID!
+  title: String
+  image: String
+  resourceType: ResourceType
+  resources: [Resource]
+}
+
+enum Media {
+  text
+  audio
+  video
+  image
+}
+
+type MediaType {
+  type: Media
+  value: String
+}
+
+type Query {
+  tbts: [Tbt]
+  lessons(id: ID!): [Lesson]
+  lessonResources(id: ID!, tbtId: ID!): [Resource]
+  lessonResource(id: ID!): Lesson
+}
+
+type Resource {
+  id: ID!
+  title: String
+  image_thumbnail: String
+  image_header: String
+  content: [MediaType]
+  _type: ResourceType
+}
+
+type ResourceType {
+  id: ID!
+  title: String!
+}
+
+type Tbt {
+  id: ID!
+  title: String
+  image: String
+}
+

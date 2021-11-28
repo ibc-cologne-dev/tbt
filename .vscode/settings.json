@@ -11,7 +11,6 @@
   "[json]": {
     "editor.formatOnSave": false
   },
-  "debug.node.autoAttach": "off",
   "cSpell.ignoreWords": [],
   "cSpell.diagnosticLevel": "Hint",
   "cSpell.ignorePaths": [

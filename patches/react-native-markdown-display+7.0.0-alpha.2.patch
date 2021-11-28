@@ -1,0 +1,140 @@
+diff --git a/node_modules/react-native-markdown-display/src/index.d.ts b/node_modules/react-native-markdown-display/src/index.d.ts
+index f0daf4a..916376c 100644
+--- a/node_modules/react-native-markdown-display/src/index.d.ts
++++ b/node_modules/react-native-markdown-display/src/index.d.ts
+@@ -4,6 +4,13 @@ import Token from 'markdown-it/lib/token';
+ import {ComponentType, ReactNode} from 'react';
+ import {StyleSheet, View} from 'react-native';
+ 
++type Matchers = {
++  [key: string]: {
++    closingTag: string;
++    type: string;
++  }
++}
++
+ export function getUniqueID(): string;
+ export function openUrl(url: string): void;
+ 
+@@ -72,6 +79,7 @@ export function parser(
+   source: string,
+   renderer: (node: ASTNode) => View,
+   parser: MarkdownParser,
++  matchers: Matchers,
+ ): any;
+ 
+ export function stringToTokens(
+@@ -83,6 +91,7 @@ export function tokensToAST(tokens: ReadonlyArray<Token>): ASTNode[];
+ 
+ export interface MarkdownProps {
+   rules?: RenderRules;
++  matchers?: Matchers;
+   style?: StyleSheet.NamedStyles<any>;
+   renderer?: AstRenderer;
+   markdownit?: MarkdownIt;
+diff --git a/node_modules/react-native-markdown-display/src/index.js b/node_modules/react-native-markdown-display/src/index.js
+index 59afec7..97718b5 100644
+--- a/node_modules/react-native-markdown-display/src/index.js
++++ b/node_modules/react-native-markdown-display/src/index.js
+@@ -132,6 +132,7 @@ const getRenderer = (
+ const Markdown = React.memo(
+   ({
+     children,
++    matchers = {},
+     renderer = null,
+     rules = null,
+     style = null,
+@@ -182,7 +183,7 @@ const Markdown = React.memo(
+ 
+     const momoizedParser = useMemo(() => markdownit, [markdownit]);
+ 
+-    return parser(children, momoizedRenderer.render, momoizedParser);
++    return parser(children, momoizedRenderer.render, momoizedParser, matchers);
+   },
+ );
+ 
+diff --git a/node_modules/react-native-markdown-display/src/lib/parser.js b/node_modules/react-native-markdown-display/src/lib/parser.js
+index 4e89793..06b8c6f 100644
+--- a/node_modules/react-native-markdown-display/src/lib/parser.js
++++ b/node_modules/react-native-markdown-display/src/lib/parser.js
+@@ -9,16 +9,17 @@ import omitListItemParagraph from './util/omitListItemParagraph';
+  * @param {string} source
+  * @param {function} [renderer]
+  * @param {AstRenderer} [markdownIt]
++ * @param {Matchers} matchers
+  * @return {View}
+  */
+-export default function parser(source, renderer, markdownIt) {
++export default function parser(source, renderer, markdownIt, matchers) {
+   if (Array.isArray(source)) {
+     return renderer(source);
+   }
+ 
+   let tokens = stringToTokens(source, markdownIt);
+   tokens = cleanupTokens(tokens);
+-  tokens = groupTextTokens(tokens);
++  tokens = groupTextTokens(tokens, matchers);
+   tokens = omitListItemParagraph(tokens);
+ 
+   const astTree = tokensToAST(tokens);
+diff --git a/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js b/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js
+index fb38e3d..13be745 100644
+--- a/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js
++++ b/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js
+@@ -1,6 +1,35 @@
+ import Token from './Token';
+ 
+-export default function groupTextTokens(tokens) {
++const cleanTokenTag = (result, token, matchers) => {
++  const typeMatchers = Object.keys(matchers);
++  for (let match of typeMatchers) {
++    const reg = /[“”]/g;
++    if (token.content.replace(reg, '"').includes(match)) {
++      result.push(new Token(matchers[match].type, 1));
++
++      const newToken = new Token('text');
++      newToken.content = token.content.substring(
++        match.length,
++        token.content.length - matchers[match].closingTag.length,
++      );
++      result.push(newToken);
++      result.push(new Token(matchers[match].type, -1));
++      return;
++    }
++  }
++
++  result.push(token);
++};
++
++const pushToken = (result, token, nesting, matchers) => {
++  if (token.content && token.content !== '') {
++    cleanTokenTag(result, token, nesting, matchers);
++  } else {
++    result.push(token);
++  }
++};
++
++export default function groupTextTokens(tokens, matchers) {
+   const result = [];
+ 
+   let hasGroup = false;
+@@ -9,15 +38,15 @@ export default function groupTextTokens(tokens) {
+     if (!token.block && !hasGroup) {
+       hasGroup = true;
+       result.push(new Token('textgroup', 1));
+-      result.push(token);
++      pushToken(result, token, matchers);
+     } else if (!token.block && hasGroup) {
+-      result.push(token);
++      pushToken(result, token, matchers);
+     } else if (token.block && hasGroup) {
+       hasGroup = false;
+       result.push(new Token('textgroup', -1));
+-      result.push(token);
++      pushToken(result, token, matchers);
+     } else {
+-      result.push(token);
++      pushToken(result, token, matchers);
+     }
+   });
+ 

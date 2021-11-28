@@ -1,4 +1,4 @@
-package com.tbt;
+package ibc.tbt;
 
 import com.facebook.react.ReactActivity;
 
