@@ -62,4 +62,5 @@ buck-out/
 #config
 .env
 /android/app/google-services.json
+/android/gradle.properties
 /ios/GoogleService-Info.plist
