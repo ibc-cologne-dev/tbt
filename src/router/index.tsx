@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {HomeScreen} from '../screens/HomeScreen';
 import {TbtsScreen} from '../screens/TbtsScreen';
 import {LessonsScreen} from '../screens/LessonsScreen';
 import {LessonScreen} from '../screens/LessonScreen';
@@ -9,6 +10,7 @@ import {LessonScreen_lesson$key} from '../__generated__/LessonScreen_lesson.grap
 import {LessonResourceScreen_resource$key} from '../__generated__/LessonResourceScreen_resource.graphql';
 
 export type RootStackParamList = {
+  home: undefined;
   tbts: undefined;
   lessons: {id: string; title: string};
   lesson: {fragmentKey: LessonScreen_lesson$key | null};
@@ -21,6 +23,11 @@ export const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="home"
+          component={HomeScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="tbts"
           component={TbtsScreen}
