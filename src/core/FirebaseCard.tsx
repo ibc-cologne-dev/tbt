@@ -46,7 +46,7 @@ export const FirebaseCard: React.FC<FirebaseCardProps> = ({
         ) : (
           <FastImage
             resizeMode="cover"
-            source={require('../assets/placeholder.png')}
+            source={require('../assets/placeholder.webp')}
             style={imageStyle}
           />
         )}
@@ -71,7 +71,7 @@ export const FirebaseCard: React.FC<FirebaseCardProps> = ({
       ) : (
         <FastImage
           resizeMode="cover"
-          source={require('../assets/placeholder.png')}
+          source={require('../assets/placeholder.webp')}
           style={imageStyle}
         />
       )}
