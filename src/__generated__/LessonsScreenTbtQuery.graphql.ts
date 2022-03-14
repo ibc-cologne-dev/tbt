@@ -1,59 +1,30 @@
+/**
+ * @generated SignedSource<<9cf389d02a7cfe6fbb1c8c3b48fdef7a>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
+import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type LessonsScreenTbtQueryVariables = {
-    id: string;
+export type LessonsScreenTbtQuery$variables = {
+  id: string;
 };
-export type LessonsScreenTbtQueryResponse = {
-    readonly lessons: ReadonlyArray<{
-        readonly id: string;
-        readonly image: string | null;
-        readonly title: string | null;
-        readonly " $fragmentRefs": FragmentRefs<"LessonScreen_lesson">;
-    } | null> | null;
+export type LessonsScreenTbtQuery$data = {
+  readonly lessons: ReadonlyArray<{
+    readonly id: string;
+    readonly image: string | null;
+    readonly title: string | null;
+    readonly " $fragmentSpreads": FragmentRefs<"LessonScreen_lesson">;
+  } | null> | null;
 };
 export type LessonsScreenTbtQuery = {
-    readonly response: LessonsScreenTbtQueryResponse;
-    readonly variables: LessonsScreenTbtQueryVariables;
+  variables: LessonsScreenTbtQuery$variables;
+  response: LessonsScreenTbtQuery$data;
 };
-
-
-
-/*
-query LessonsScreenTbtQuery(
-  $id: ID!
-) {
-  lessons(id: $id) {
-    id
-    image
-    title
-    ...LessonScreen_lesson
-  }
-}
-
-fragment LessonResourceScreen_resource on Resource {
-  title
-  image_header
-  content {
-    type
-    value
-  }
-}
-
-fragment LessonScreen_lesson on Lesson {
-  id
-  title
-  resources {
-    id
-    image_thumbnail
-    title
-    ...LessonResourceScreen_resource
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -205,5 +176,7 @@ return {
   }
 };
 })();
-(node as any).hash = '0fd2e8c81adb9cd8a9b4828f6477b76a';
+
+(node as any).hash = "0fd2e8c81adb9cd8a9b4828f6477b76a";
+
 export default node;

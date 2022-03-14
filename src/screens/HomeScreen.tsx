@@ -46,9 +46,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 40,
     textAlign: 'center',
+    fontFamily: 'AvenirLTW05-45Book',
   },
   button: {
     padding: 8,
     margin: 16,
   },
 });
+
+// AvenirLTW05-45Book
+// AvenirLTW05-95Black

@@ -1,27 +1,30 @@
+/**
+ * @generated SignedSource<<4d0819bb424141b2a0efb25e51ed484f>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ReaderFragment } from "relay-runtime";
+import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type LessonScreen_lesson = {
+export type LessonScreen_lesson$data = {
+  readonly id: string;
+  readonly title: string | null;
+  readonly resources: ReadonlyArray<{
     readonly id: string;
+    readonly image_thumbnail: string | null;
     readonly title: string | null;
-    readonly resources: ReadonlyArray<{
-        readonly id: string;
-        readonly image_thumbnail: string | null;
-        readonly title: string | null;
-        readonly " $fragmentRefs": FragmentRefs<"LessonResourceScreen_resource">;
-    } | null> | null;
-    readonly " $refType": "LessonScreen_lesson";
+    readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_resource">;
+  } | null> | null;
+  readonly " $fragmentType": "LessonScreen_lesson";
 };
-export type LessonScreen_lesson$data = LessonScreen_lesson;
 export type LessonScreen_lesson$key = {
-    readonly " $data"?: LessonScreen_lesson$data;
-    readonly " $fragmentRefs": FragmentRefs<"LessonScreen_lesson">;
+  readonly " $data"?: LessonScreen_lesson$data;
+  readonly " $fragmentSpreads": FragmentRefs<"LessonScreen_lesson">;
 };
-
-
 
 const node: ReaderFragment = (function(){
 var v0 = {
@@ -76,5 +79,7 @@ return {
   "abstractKey": null
 };
 })();
-(node as any).hash = 'ae537d335af15451c31c9a5d940ac9bf';
+
+(node as any).hash = "ae537d335af15451c31c9a5d940ac9bf";
+
 export default node;

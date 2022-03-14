@@ -1,32 +1,26 @@
+/**
+ * @generated SignedSource<<1da1e9239a02fd516d95dafb1458cc47>>
+ * @lightSyntaxTransform
+ * @nogrep
+ */
+
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest } from "relay-runtime";
-export type TbtsScreenTbtQueryVariables = {};
-export type TbtsScreenTbtQueryResponse = {
-    readonly tbts: ReadonlyArray<{
-        readonly id: string;
-        readonly image: string | null;
-        readonly title: string | null;
-    } | null> | null;
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type TbtsScreenTbtQuery$variables = {};
+export type TbtsScreenTbtQuery$data = {
+  readonly tbts: ReadonlyArray<{
+    readonly id: string;
+    readonly image: string | null;
+    readonly title: string | null;
+  } | null> | null;
 };
 export type TbtsScreenTbtQuery = {
-    readonly response: TbtsScreenTbtQueryResponse;
-    readonly variables: TbtsScreenTbtQueryVariables;
+  variables: TbtsScreenTbtQuery$variables;
+  response: TbtsScreenTbtQuery$data;
 };
-
-
-
-/*
-query TbtsScreenTbtQuery {
-  tbts {
-    id
-    image
-    title
-  }
-}
-*/
 
 const node: ConcreteRequest = (function(){
 var v0 = [
@@ -90,5 +84,7 @@ return {
   }
 };
 })();
-(node as any).hash = '6fd0b6f0f12858b1e941503c409454cb';
+
+(node as any).hash = "6fd0b6f0f12858b1e941503c409454cb";
+
 export default node;
