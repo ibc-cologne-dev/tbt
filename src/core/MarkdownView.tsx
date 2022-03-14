@@ -41,13 +41,19 @@ const rules = {
 };
 
 const styles = StyleSheet.create({
+  body: {
+    fontFamily: 'Nunito',
+  },
   heading1: {
+    fontFamily: 'Nunito',
     fontSize: 32,
   },
   heading2: {
+    fontFamily: 'Nunito',
     fontSize: 24,
   },
   heading3: {
+    fontFamily: 'Nunito',
     fontSize: 20,
   },
   customHr: {

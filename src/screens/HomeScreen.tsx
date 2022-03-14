@@ -46,13 +46,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 40,
     textAlign: 'center',
-    fontFamily: 'AvenirLTW05-45Book',
+    fontFamily: 'Nunito',
   },
   button: {
     padding: 8,
     margin: 16,
+    fontFamily: 'Nunito',
   },
 });
-
-// AvenirLTW05-45Book
-// AvenirLTW05-95Black

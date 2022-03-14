@@ -37,6 +37,7 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        style={styles.listContainer}
         data={data.resources}
         horizontal={false}
         ItemSeparatorComponent={() => <Spacer variant="md" />}
@@ -64,10 +65,11 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f7f7f7',
   },
   listContainer: {
-    justifyContent: 'space-between',
-    padding: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
   },
   resource: {
     backgroundColor: '#ffffff',
