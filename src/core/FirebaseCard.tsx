@@ -1,8 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {StyleProp, TouchableOpacity} from 'react-native';
+import {
+  StyleProp,
+  TouchableOpacity,
+  Image as FastImage,
+  ImageStyle,
+} from 'react-native';
+
 import storage from '@react-native-firebase/storage';
 import {Text} from 'react-native-paper';
-import FastImage, {ImageStyle} from 'react-native-fast-image';
+// import FastImage, {ImageStyle} from 'react-native-fast-image';
 
 type FirebaseCardProps = {
   title?: string | null;
