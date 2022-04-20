@@ -89,7 +89,6 @@ const getTitleStyle = (
   switch (variant) {
     case 'block':
       return {
-        fontFamily: 'Nunito',
         fontWeight: 'bold',
         fontSize: 14,
         textAlign: 'center',
@@ -98,7 +97,6 @@ const getTitleStyle = (
       };
     case 'fullBleed':
       return {
-        fontFamily: 'Nunito',
         fontSize: 20,
         fontWeight: 'bold',
         paddingVertical: 16,
@@ -107,7 +105,6 @@ const getTitleStyle = (
     case 'listItem':
       return {
         fontSize: 16,
-        fontFamily: 'Nunito',
         textAlign: 'center',
         paddingLeft: 16,
       };

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {FlatList, StyleSheet, TouchableNativeFeedback} from 'react-native';
 import {graphql, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {TbtsScreenTbtQuery} from '../__generated__/TbtsScreenTbtQuery.graphql';
@@ -13,6 +7,7 @@ import {RootStackParamList} from '../router';
 import {Spacer} from '../core/Spacer';
 import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
 import {Box} from '../core/Box';
+import {Text} from '../core/Text';
 
 const TbtsQuery = graphql`
   query TbtsScreenTbtQuery {
@@ -30,7 +25,7 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
 
   return (
     <BaseScreenWrapper>
-      <View style={styles.container}>
+      <Box paddingHorizontal={4} paddingVertical={4}>
         <FlatList
           data={data.tbts}
           ItemSeparatorComponent={() => <Spacer variant="lg" />}
@@ -45,36 +40,27 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
               <Box
                 backgroundColor="petrolBlue"
                 style={styles.card}
+                padding={2}
                 key={`tbt_${index}`}>
-                <Text style={styles.text}>{item?.title ?? ''}</Text>
+                <Text variant="lg" fontWeight="bold" textAlign="center">
+                  {item?.title ?? ''}
+                </Text>
               </Box>
             </TouchableNativeFeedback>
           )}
           keyExtractor={(_, index) => `tbtItem_${index}`}
         />
-      </View>
+      </Box>
     </BaseScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 32,
-    paddingBottom: 32,
-    paddingHorizontal: 16,
-  },
   card: {
     width: '100%',
-    paddingVertical: 32,
   },
   cardImage: {
     width: '100%',
     minHeight: 160,
-  },
-  text: {
-    color: '#ffffff',
-    fontSize: 18,
-    lineHeight: 18,
-    textAlign: 'center',
   },
 });

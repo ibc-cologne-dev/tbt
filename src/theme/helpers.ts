@@ -1,21 +1,18 @@
 import {View, StyleProp} from 'react-native';
-import {Color, Margins, Paddings} from './types';
+import {Margins, Paddings} from './types';
 import {spacing} from './spacing';
-import {colors} from './colors';
+import {colors, Color} from './colors';
+import {Font, fonts, Variant, variants} from './typography';
 
-// export function extractBackgroundColor(backgroundColor: Color): StyleProp<View>;
-// export function extractBackgroundColor(backgroundColor: undefined): {};
-// export function extractBackgroundColor(
-//   backgroundColor?: Color,
-// ): {} | StyleProp<View>;
 export function extractBackgroundColor(
   backgroundColor?: Color,
 ): {} | StyleProp<View> {
   if (!backgroundColor) {
     return {};
   }
+
   return {
-    backgroundColor: colors[backgroundColor],
+    backgroundColor: colors[backgroundColor as Color],
   };
 }
 
@@ -85,4 +82,16 @@ export function extractPadding(props: unknown & Paddings) {
   }
 
   return padding;
+}
+
+export function extractFontFamily(font: Font) {
+  return {fontFamily: fonts[font]};
+}
+
+export function extractFontSize(variant: Variant) {
+  return variants[variant];
+}
+
+export function extractFontColor(color: Color) {
+  return {color: colors[color]};
 }

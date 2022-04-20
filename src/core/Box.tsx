@@ -16,8 +16,8 @@ export const Box: React.FC<BoxProps> = ({style, backgroundColor, ...rest}) => {
 
   return (
     <View
-      style={[style, backgroundStyle, marginStyle, paddingStyle]}
       {...rest}
+      style={[style, backgroundStyle, marginStyle, paddingStyle]}
     />
   );
 };

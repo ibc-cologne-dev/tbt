@@ -28,9 +28,10 @@ export const fetchGraphQL = async (text: string, variables: unknown) => {
 };
 
 async function fetchRelay(params: RequestParameters, variables: Variables) {
-  console.log(
-    `fetching query ${params.name} with ${JSON.stringify(variables)}`,
-  );
+  !!__DEV__ &&
+    console.log(
+      `fetching query ${params.name} with ${JSON.stringify(variables)}`,
+    );
   return fetchGraphQL(params.text ?? '', variables);
 }
 

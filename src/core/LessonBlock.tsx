@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Box} from './Box';
+import {Text} from './Text';
 import {colors, isColor, Color} from '../theme/colors';
 import {spacing} from '../theme/spacing';
 
@@ -32,13 +33,15 @@ export const LessonBlock: React.FC<LessonBlockProps> = ({
     <TouchableOpacity onPress={onPress}>
       <Box style={styles.container}>
         <Box backgroundColor={color} style={styles.index}>
-          <Text style={styles.indexText}>{index ?? ' '}</Text>
+          <Text color="white100" fontWeight="bold" variant="lg">
+            {index ?? ' '}
+          </Text>
         </Box>
         <Box
           backgroundColor={isEven ? 'white100' : 'white50'}
           style={styles.body}>
-          <Text style={styles.bodyText}>{headline ?? ''}</Text>
-          <Text style={styles.bodyText}>{subline}</Text>
+          <Text color="petrolBlue">{headline ?? ''}</Text>
+          <Text color="petrolBlue">{subline}</Text>
         </Box>
       </Box>
     </TouchableOpacity>
@@ -51,18 +54,12 @@ const styles = StyleSheet.create({
   },
   index: {
     alignItems: 'center',
-    paddingVertical: spacing[2],
+    justifyContent: 'center',
     width: spacing[4],
-  },
-  indexText: {
-    color: colors.white100,
   },
   body: {
     flex: 1,
     paddingVertical: spacing[2],
     paddingHorizontal: spacing[4],
-  },
-  bodyText: {
-    color: colors.petrolBlue,
   },
 });

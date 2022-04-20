@@ -26,11 +26,6 @@ type LessonsScreensProps = NativeStackScreenProps<
   'lessons'
 >;
 
-type LessonData = {
-  variables: LessonsScreenTbtQuery['variables'];
-  response: LessonsScreenTbtQuery['response'];
-};
-
 export const LessonsScreen: React.FC<LessonsScreensProps> = ({
   route: {params},
   navigation,
@@ -46,6 +41,7 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
     return null;
   }
 
+  // TODO: add argument to the graphql query to sort
   const orderData = data.lessons
     .filter(l => l !== null)
     .sort((a, b) => {
@@ -69,6 +65,7 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
             index={item?.number}
             headline={item?.title}
             subline={item?.subtitle}
+            indexColor={item?.color}
             onPress={() => {
               navigation.navigate('lessonResources', {
                 fragmentKey: item,
