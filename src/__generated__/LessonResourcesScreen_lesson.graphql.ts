@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4d0819bb424141b2a0efb25e51ed484f>>
+ * @generated SignedSource<<215678a5804a405c3464f2ae8a358b27>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,20 +10,19 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type LessonScreen_lesson$data = {
+export type LessonResourcesScreen_lesson$data = {
   readonly id: string;
   readonly title: string | null;
   readonly resources: ReadonlyArray<{
     readonly id: string;
-    readonly image_thumbnail: string | null;
     readonly title: string | null;
     readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_resource">;
   } | null> | null;
-  readonly " $fragmentType": "LessonScreen_lesson";
+  readonly " $fragmentType": "LessonResourcesScreen_lesson";
 };
-export type LessonScreen_lesson$key = {
-  readonly " $data"?: LessonScreen_lesson$data;
-  readonly " $fragmentSpreads": FragmentRefs<"LessonScreen_lesson">;
+export type LessonResourcesScreen_lesson$key = {
+  readonly " $data"?: LessonResourcesScreen_lesson$data;
+  readonly " $fragmentSpreads": FragmentRefs<"LessonResourcesScreen_lesson">;
 };
 
 const node: ReaderFragment = (function(){
@@ -45,7 +44,7 @@ return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "LessonScreen_lesson",
+  "name": "LessonResourcesScreen_lesson",
   "selections": [
     (v0/*: any*/),
     (v1/*: any*/),
@@ -58,13 +57,6 @@ return {
       "plural": true,
       "selections": [
         (v0/*: any*/),
-        {
-          "alias": null,
-          "args": null,
-          "kind": "ScalarField",
-          "name": "image_thumbnail",
-          "storageKey": null
-        },
         (v1/*: any*/),
         {
           "args": null,
@@ -80,6 +72,6 @@ return {
 };
 })();
 
-(node as any).hash = "ae537d335af15451c31c9a5d940ac9bf";
+(node as any).hash = "d88c13bb2774561276d7d249294ce9cb";
 
 export default node;

@@ -4,35 +4,34 @@ import {graphql, useFragment} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../router';
 import {FirebaseCard} from '../core/FirebaseCard';
-import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {Spacer} from '../core/Spacer';
 
-const lessonQuery = graphql`
-  fragment LessonScreen_lesson on Lesson {
+const lessonResourcesQuery = graphql`
+  fragment LessonResourcesScreen_lesson on Lesson {
     id
     title
     resources {
       id
-      image_thumbnail
       title
       ...LessonResourceScreen_resource
     }
   }
 `;
 
-type LessonsScreenProps = NativeStackScreenProps<RootStackParamList, 'lesson'>;
+type LessonsScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  'lessonResources'
+>;
 
 export const LessonScreen: React.FC<LessonsScreenProps> = ({
   navigation,
   route: {params},
 }) => {
-  const data = useFragment(lessonQuery, params.fragmentKey);
+  const data = useFragment(lessonResourcesQuery, params.fragmentKey);
 
   if (!data?.resources) {
     throw new Error('Resources cannot be null');
   }
-
-  useCustomScreenHeader(data.title ?? '');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +45,7 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
             onPress={() =>
               navigation.navigate('lessonResource', {
                 fragmentKey: item,
+                book: params.book,
               })
             }
             title={item?.title}

@@ -64,3 +64,5 @@ buck-out/
 /android/app/google-services.json
 /android/gradle.properties
 /ios/GoogleService-Info.plist
+
+src/assets/fonts/*

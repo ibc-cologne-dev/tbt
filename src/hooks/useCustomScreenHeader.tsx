@@ -10,3 +10,14 @@ export const useCustomScreenHeader = (title: string) => {
     }
   }, [title, setOptions]);
 };
+
+export const useCustomHeaderSubtitle = (subtitle: string) => {
+  const {setParams} = useNavigation();
+
+  useEffect(() => {
+    if (subtitle) {
+      // @ts-ignore
+      setParams({subtitle});
+    }
+  }, [subtitle, setParams]);
+};

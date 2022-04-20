@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1da1e9239a02fd516d95dafb1458cc47>>
+ * @generated SignedSource<<d04e8e324df3f75ccf558d201c973848>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,7 +13,6 @@ export type TbtsScreenTbtQuery$variables = {};
 export type TbtsScreenTbtQuery$data = {
   readonly tbts: ReadonlyArray<{
     readonly id: string;
-    readonly image: string | null;
     readonly title: string | null;
   } | null> | null;
 };
@@ -37,13 +36,6 @@ var v0 = [
         "args": null,
         "kind": "ScalarField",
         "name": "id",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "image",
         "storageKey": null
       },
       {
@@ -75,16 +67,16 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "b5224f063f2ee515f1fa63df89e9f149",
+    "cacheID": "bcca15b3d896c1fc702ecc58edbd6c58",
     "id": null,
     "metadata": {},
     "name": "TbtsScreenTbtQuery",
     "operationKind": "query",
-    "text": "query TbtsScreenTbtQuery {\n  tbts {\n    id\n    image\n    title\n  }\n}\n"
+    "text": "query TbtsScreenTbtQuery {\n  tbts {\n    id\n    title\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6fd0b6f0f12858b1e941503c409454cb";
+(node as any).hash = "257b1f5d6bfedc38ce152198118a4bb1";
 
 export default node;

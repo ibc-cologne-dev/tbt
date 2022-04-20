@@ -7,9 +7,11 @@ directive @specifiedBy(
 type Lesson {
   id: ID!
   title: String
-  image: String
+  subtitle: String
+  color: String
   resourceType: ResourceType
   resources: [Resource]
+  number: Int
 }
 
 enum Media {
@@ -34,7 +36,6 @@ type Query {
 type Resource {
   id: ID!
   title: String
-  image_thumbnail: String
   image_header: String
   content: [MediaType]
   _type: ResourceType
@@ -48,6 +49,6 @@ type ResourceType {
 type Tbt {
   id: ID!
   title: String
-  image: String
+  orderNumber: Int
 }
 

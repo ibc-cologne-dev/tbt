@@ -1,14 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleProp,
-  TouchableOpacity,
-  Image as FastImage,
-  ImageStyle,
-} from 'react-native';
+import {StyleProp, TouchableOpacity} from 'react-native';
 
 import storage from '@react-native-firebase/storage';
 import {Text} from 'react-native-paper';
-// import FastImage, {ImageStyle} from 'react-native-fast-image';
+import FastImage, {ImageStyle} from 'react-native-fast-image';
 
 type FirebaseCardProps = {
   title?: string | null;
@@ -29,15 +24,15 @@ export const FirebaseCard: React.FC<FirebaseCardProps> = ({
 
   const titleStyle = getTitleStyle(variant);
 
-  useEffect(() => {
-    if (firebaseUri) {
-      const getImage = async () => {
-        const path = await storage().ref(firebaseUri).getDownloadURL();
-        setImageUri(path);
-      };
-      getImage();
-    }
-  }, [firebaseUri]);
+  // useEffect(() => {
+  //   if (firebaseUri) {
+  //     const getImage = async () => {
+  //       const path = await storage().ref(firebaseUri).getDownloadURL();
+  //       setImageUri(path);
+  //     };
+  //     getImage();
+  //   }
+  // }, [firebaseUri]);
 
   if (variant !== 'listItem') {
     return (
@@ -46,7 +41,8 @@ export const FirebaseCard: React.FC<FirebaseCardProps> = ({
         {firebaseUri && imageUri !== '' ? (
           <FastImage
             resizeMode="cover"
-            source={{uri: imageUri}}
+            // source={{uri: imageUri}}
+            source={require('../assets/placeholder.webp')}
             style={imageStyle}
           />
         ) : (
@@ -71,7 +67,8 @@ export const FirebaseCard: React.FC<FirebaseCardProps> = ({
       {firebaseUri && imageUri !== '' ? (
         <FastImage
           resizeMode="cover"
-          source={{uri: imageUri}}
+          // source={{uri: imageUri}}
+          source={require('../assets/placeholder.webp')}
           style={imageStyle}
         />
       ) : (
