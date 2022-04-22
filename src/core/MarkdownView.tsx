@@ -1,33 +1,22 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import Markdown, {ASTNode} from 'react-native-markdown-display';
-import {Separator} from './Separator';
+import {colors} from '../theme/colors';
+import {spacing} from '../theme/spacing';
+import {fonts, variants} from '../theme/typography';
 
 interface MarkdownViewProps {
   key?: string;
 }
 
 export const MarkdownView: React.FC<MarkdownViewProps> = ({children, key}) => (
-  <Markdown
-    style={styles}
-    rules={rules}
-    key={key}
-    matchers={{
-      ['<span style="color:lightblue;">']: {
-        closingTag: '</span>',
-        type: 'textLightBlue',
-      },
-      ['<span style="color:orange;">']: {
-        closingTag: '</span>',
-        type: 'textOrange',
-      },
-    }}>
+  <Markdown style={styles} rules={rules} key={key}>
     {children}
   </Markdown>
 );
 
 const rules = {
-  hr: (node: ASTNode) => <Separator style={styles.customHr} key={node.key} />,
+  // hr: (node: ASTNode) => <Separator style={styles.customHr} key={node.key} />,
   textLightBlue: (node: ASTNode, children: ReactNode) => (
     <Text key={node.key} style={styles.customTextLightBlue}>
       {children}
@@ -42,27 +31,33 @@ const rules = {
 
 const styles = StyleSheet.create({
   body: {
-    fontFamily: 'Nunito',
+    fontFamily: fonts.avenir,
+    ...variants.md,
   },
   heading1: {
-    fontFamily: 'Nunito',
-    fontSize: 32,
+    fontFamily: fonts.avenir,
+    ...variants.xl,
   },
   heading2: {
-    fontFamily: 'Nunito',
-    fontSize: 24,
+    fontFamily: fonts.avenir,
+    ...variants.lg,
   },
   heading3: {
-    fontFamily: 'Nunito',
-    fontSize: 20,
+    fontFamily: fonts.avenir,
+    ...variants.md,
+  },
+  em: {
+    fontFamily: fonts.alisha,
+    fontSize: 24,
+    lineHeight: 32,
   },
   customHr: {
-    marginVertical: 24,
+    marginVertical: spacing[4],
   },
   customTextLightBlue: {
-    color: 'lightblue',
+    color: colors.petrolBlue,
   },
   customTextOrange: {
-    color: 'orange',
+    color: colors.orange,
   },
 });

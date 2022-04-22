@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16dff6d739b2abc906cc25a1baf9543a>>
+ * @generated SignedSource<<426c652d1182015e335af5564ef1685f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,25 +10,24 @@
 
 import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type LessonResourcesScreen_lesson$data = {
+export type LessonResourceScreen_lesson$data = {
   readonly id: string;
   readonly title: string;
   readonly subtitle: string | null;
   readonly number: number;
   readonly color: string | null;
-  readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_lesson">;
-  readonly " $fragmentType": "LessonResourcesScreen_lesson";
+  readonly " $fragmentType": "LessonResourceScreen_lesson";
 } | null;
-export type LessonResourcesScreen_lesson$key = {
-  readonly " $data"?: LessonResourcesScreen_lesson$data;
-  readonly " $fragmentSpreads": FragmentRefs<"LessonResourcesScreen_lesson">;
+export type LessonResourceScreen_lesson$key = {
+  readonly " $data"?: LessonResourceScreen_lesson$data;
+  readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_lesson">;
 };
 
 const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
-  "name": "LessonResourcesScreen_lesson",
+  "name": "LessonResourceScreen_lesson",
   "selections": [
     {
       "kind": "RequiredField",
@@ -79,17 +78,12 @@ const node: ReaderFragment = {
       "kind": "ScalarField",
       "name": "color",
       "storageKey": null
-    },
-    {
-      "args": null,
-      "kind": "FragmentSpread",
-      "name": "LessonResourceScreen_lesson"
     }
   ],
   "type": "ShortLessonItem",
   "abstractKey": null
 };
 
-(node as any).hash = "5187eadeef698d3d8481a0bcbbe2f67f";
+(node as any).hash = "0d79331ffeb85d8cced0e7044d90e617";
 
 export default node;

@@ -1,13 +1,15 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Header} from './Header';
+
 import {TbtsScreen} from '../screens/TbtsScreen';
 import {LessonsScreen} from '../screens/LessonsScreen';
 import {LessonScreen} from '../screens/LessonResourcesScreen';
 import {LessonResourceScreen} from '../screens/LessonResourceScreen';
 import {LessonResourceScreen_resource$key} from '../__generated__/LessonResourceScreen_resource.graphql';
 import {LessonResourcesScreen_lesson$key} from '../__generated__/LessonResourcesScreen_lesson.graphql';
-import {Header} from './Header';
+import {LessonResourceScreen_lesson$key} from '../__generated__/LessonResourceScreen_lesson.graphql';
 
 export type RootStackParamList = {
   tbts: undefined;
@@ -19,7 +21,8 @@ export type RootStackParamList = {
     fragmentKey: LessonResourcesScreen_lesson$key | null;
   };
   lessonResource: {
-    fragmentKey: LessonResourceScreen_resource$key | null;
+    resourceFragmentKey: LessonResourceScreen_resource$key | null;
+    lessonFragmentKey: LessonResourceScreen_lesson$key | null;
     book: string;
   };
 };
@@ -57,7 +60,10 @@ export const Navigator = () => {
         <Stack.Screen
           name="lessonResource"
           component={LessonResourceScreen}
-          options={{title: ''}}
+          options={{
+            title: '',
+            header: props => <Header {...props} />,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

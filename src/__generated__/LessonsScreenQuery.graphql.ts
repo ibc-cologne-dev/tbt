@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<7401c66445c0dd70a1d72c2df6c23fa3>>
+ * @generated SignedSource<<1f06a862f4f7d61de3ab46ec2809882c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -155,12 +155,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "04abe07e18e7729a543bf6b2972625ee",
+    "cacheID": "4acde61dd652aba5fb03a998619a119c",
     "id": null,
     "metadata": {},
     "name": "LessonsScreenQuery",
     "operationKind": "query",
-    "text": "query LessonsScreenQuery(\n  $tbtId: ID!\n) {\n  lessons(tbtId: $tbtId) {\n    ...LessonResourcesScreen_lesson\n    id\n    title\n    subtitle\n    number\n    color\n  }\n}\n\nfragment LessonResourcesScreen_lesson on ShortLessonItem {\n  id\n  title\n  subtitle\n  number\n  color\n}\n"
+    "text": "query LessonsScreenQuery(\n  $tbtId: ID!\n) {\n  lessons(tbtId: $tbtId) {\n    ...LessonResourcesScreen_lesson\n    id\n    title\n    subtitle\n    number\n    color\n  }\n}\n\nfragment LessonResourceScreen_lesson on ShortLessonItem {\n  id\n  title\n  subtitle\n  number\n  color\n}\n\nfragment LessonResourcesScreen_lesson on ShortLessonItem {\n  id\n  title\n  subtitle\n  number\n  color\n  ...LessonResourceScreen_lesson\n}\n"
   }
 };
 })();

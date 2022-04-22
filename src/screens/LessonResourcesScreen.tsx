@@ -11,7 +11,7 @@ import {RootStackParamList} from '../router';
 import {LessonBlock} from '../core/LessonBlock';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
-import {Color} from '../theme/colors';
+import {Color, colors} from '../theme/colors';
 import {spacing} from '../theme/spacing';
 import {Font, Variant} from '../theme/typography';
 import {LessonResourcesScreenQuery} from '../__generated__/LessonResourcesScreenQuery.graphql';
@@ -36,6 +36,7 @@ const lessonFragment = graphql`
     subtitle
     number @required(action: NONE)
     color
+    ...LessonResourceScreen_lesson
   }
 `;
 
@@ -52,19 +53,19 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
     LessonResourcesQuery,
     {lessonId: params.lessonId, tbtId: params.tbtId},
   );
-  const lessonData = useFragment(lessonFragment, params.fragmentKey);
+  const lesson = useFragment(lessonFragment, params.fragmentKey);
 
-  if (!lessonResources || !lessonData) {
+  if (!lessonResources || !lesson) {
     throw new Error('Resources cannot be null');
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <LessonBlock
-        index={lessonData.number}
-        indexColor={lessonData.color}
-        headline={lessonData.title}
-        subline={lessonData.subtitle}
+        index={lesson.number}
+        indexColor={lesson.color}
+        headline={lesson.title}
+        subline={lesson.subtitle}
       />
 
       <FlatList
@@ -75,9 +76,11 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
           const {boxStyle, textStyle} = getResourceStyle(item?.type?.title!);
           return (
             <TouchableHighlight
+              underlayColor={colors.white100}
               onPress={() => {
                 navigation.navigate('lessonResource', {
-                  fragmentKey: item,
+                  resourceFragmentKey: item,
+                  lessonFragmentKey: lesson,
                   book: params.book,
                 });
               }}>

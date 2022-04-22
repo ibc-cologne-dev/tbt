@@ -8,6 +8,7 @@ import {LazyLoadImage} from '../core/LazyLoadImage';
 import {Content} from '../core/Content';
 import {Join} from '../core/Join';
 import {Spacer} from '../core/Spacer';
+import {LessonBlock} from '../core/LessonBlock';
 
 const LessonResourceFragment = graphql`
   fragment LessonResourceScreen_resource on Resource {
@@ -20,6 +21,16 @@ const LessonResourceFragment = graphql`
   }
 `;
 
+const LessonFragment = graphql`
+  fragment LessonResourceScreen_lesson on ShortLessonItem {
+    id @required(action: NONE)
+    title @required(action: NONE)
+    subtitle
+    number @required(action: NONE)
+    color
+  }
+`;
+
 type LessonResourceScreenProps = NativeStackScreenProps<
   RootStackParamList,
   'lessonResource'
@@ -28,24 +39,39 @@ type LessonResourceScreenProps = NativeStackScreenProps<
 export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
   route: {params},
 }) => {
-  const data = useFragment(LessonResourceFragment, params.fragmentKey);
+  const resource = useFragment(
+    LessonResourceFragment,
+    params.resourceFragmentKey,
+  );
+  const lesson = useFragment(LessonFragment, params.lessonFragmentKey);
 
-  useCustomScreenHeader(data?.title ?? '');
+  useCustomScreenHeader(resource?.title ?? '');
+
+  if (!resource || !lesson) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
+      <LessonBlock
+        index={lesson.number}
+        indexColor={lesson.color}
+        headline={lesson.title}
+        subline={lesson.subtitle}
+      />
       <ScrollView contentContainerStyle={styles.scrollview}>
-        {!!data?.image_header && (
+        {!!resource?.image_header && (
           <LazyLoadImage
-            firebaseUri={data?.image_header}
+            firebaseUri={resource?.image_header}
             imageStyle={styles.imageHeader}
           />
         )}
+
         <Spacer variant="lg" />
 
         <View style={styles.listContainer}>
           <Join separator={<Spacer variant="lg" />}>
-            {data?.content?.map((content, index) => (
+            {resource?.content?.map((content, index) => (
               <Content
                 key={`content_${index}`}
                 content={content?.value ?? ''}

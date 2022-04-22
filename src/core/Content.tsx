@@ -4,6 +4,7 @@ import {Content as ContentType} from '../types';
 import {MarkdownView} from './MarkdownView';
 import {LoadingIndicator} from './LoadingIndicator';
 import {Media} from '../__generated__/LessonResourceScreen_resource.graphql';
+import {Box} from './Box';
 
 interface ContentProps {
   type: Media | null;
@@ -29,7 +30,11 @@ export const Content: React.FC<ContentProps> = ({content, type, ...rest}) => {
 };
 
 export const ContentText: React.FC<{content: string}> = ({content}) => {
-  return <MarkdownView>{content}</MarkdownView>;
+  return (
+    <Box paddingHorizontal={2}>
+      <MarkdownView>{content}</MarkdownView>
+    </Box>
+  );
 };
 
 export const ContentVideo: React.FC<{content: string}> = ({content}) => {

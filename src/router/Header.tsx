@@ -65,7 +65,7 @@ function getBackTitle(routeName: string): string {
       return 'BOOKS';
     case 'lessonResources':
       return 'LESSONS';
-    case 'lessonsResource':
+    case 'lessonResource':
       return 'RESOURCE';
   }
   return '';
