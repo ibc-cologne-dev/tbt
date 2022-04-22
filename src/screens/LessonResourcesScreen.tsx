@@ -1,20 +1,42 @@
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
-import {graphql, useFragment} from 'react-relay';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  TextStyle,
+  TouchableHighlight,
+} from 'react-native';
+import {graphql, useFragment, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../router';
-import {FirebaseCard} from '../core/FirebaseCard';
-import {Spacer} from '../core/Spacer';
+import {LessonBlock} from '../core/LessonBlock';
+import {Box} from '../core/Box';
+import {Text} from '../core/Text';
+import {Color} from '../theme/colors';
+import {spacing} from '../theme/spacing';
+import {Font, Variant} from '../theme/typography';
+import {LessonResourcesScreenQuery} from '../__generated__/LessonResourcesScreenQuery.graphql';
 
-const lessonResourcesQuery = graphql`
-  fragment LessonResourcesScreen_lesson on Lesson {
-    id
-    title
-    resources {
+const LessonResourcesQuery = graphql`
+  query LessonResourcesScreenQuery($lessonId: ID!, $tbtId: ID!) {
+    lessonResources(lessonId: $lessonId, tbtId: $tbtId) {
       id
       title
+      type {
+        title
+      }
       ...LessonResourceScreen_resource
     }
+  }
+`;
+
+const lessonFragment = graphql`
+  fragment LessonResourcesScreen_lesson on ShortLessonItem {
+    id @required(action: NONE)
+    title @required(action: NONE)
+    subtitle
+    number @required(action: NONE)
+    color
   }
 `;
 
@@ -27,40 +49,81 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
   navigation,
   route: {params},
 }) => {
-  const data = useFragment(lessonResourcesQuery, params.fragmentKey);
+  const {lessonResources} = useLazyLoadQuery<LessonResourcesScreenQuery>(
+    LessonResourcesQuery,
+    {lessonId: params.lessonId, tbtId: params.tbtId},
+  );
+  const lessonData = useFragment(lessonFragment, params.fragmentKey);
 
-  if (!data?.resources) {
+  if (!lessonResources || !lessonData) {
     throw new Error('Resources cannot be null');
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <LessonBlock
+        index={lessonData.number}
+        indexColor={lessonData.color}
+        headline={lessonData.title}
+        subline={lessonData.subtitle}
+      />
+
       <FlatList
         style={styles.listContainer}
-        data={data.resources}
+        data={lessonResources}
         horizontal={false}
-        ItemSeparatorComponent={() => <Spacer variant="md" />}
-        renderItem={({item, index}) => (
-          <FirebaseCard
-            onPress={() =>
-              navigation.navigate('lessonResource', {
-                fragmentKey: item,
-                book: params.book,
-              })
-            }
-            title={item?.title}
-            key={`lessonResource_${index}`}
-            firebaseUri={item?.image_thumbnail}
-            style={styles.resource}
-            imageStyle={styles.resourceImage}
-            variant="listItem"
-          />
-        )}
+        renderItem={({item, index}) => {
+          const {boxStyle, textStyle} = getResourceStyle(item?.type?.title!);
+          return (
+            <TouchableHighlight
+              onPress={() => {
+                navigation.navigate('lessonResource', {
+                  fragmentKey: item,
+                  book: params.book,
+                });
+              }}>
+              <Box
+                key={`resource_${index}`}
+                {...boxStyle}
+                margin={1}
+                style={styles.button}>
+                <Text color="white100" textAlign="center" {...textStyle}>
+                  {item?.title}
+                </Text>
+              </Box>
+            </TouchableHighlight>
+          );
+        }}
         keyExtractor={(_, index) => `tbtItem_${index}`}
       />
     </SafeAreaView>
   );
 };
+
+function getResourceStyle(typename: string): {
+  boxStyle: {
+    backgroundColor: Color;
+  };
+  textStyle: {
+    fontWeight?: TextStyle['fontWeight'];
+    fontFamily?: Font;
+    variant: Variant;
+  };
+} {
+  if (typename === 'Sermon' || typename === 'Study Guide') {
+    return {
+      boxStyle: {
+        backgroundColor: 'petrolBlue',
+      },
+      textStyle: {fontFamily: 'avenirBlack', variant: 'lg'},
+    };
+  }
+
+  return {
+    boxStyle: {backgroundColor: 'orange'},
+    textStyle: {fontFamily: 'alisha', variant: 'xl'},
+  };
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -68,17 +131,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7f7f7',
   },
   listContainer: {
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    paddingBottom: 16,
+    paddingHorizontal: spacing[4],
   },
-  resource: {
-    backgroundColor: '#ffffff',
-    borderRadius: 4,
-    justifyContent: 'space-between',
-    height: 80,
-  },
-  resourceImage: {
-    height: 80,
-    width: 80,
+  button: {
+    minHeight: 80,
+    justifyContent: 'center',
   },
 });

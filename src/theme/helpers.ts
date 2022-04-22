@@ -2,7 +2,7 @@ import {View, StyleProp} from 'react-native';
 import {Margins, Paddings} from './types';
 import {spacing} from './spacing';
 import {colors, Color} from './colors';
-import {Font, fonts, Variant, variants} from './typography';
+import {Font, fonts, letterSpacing, Variant, variants} from './typography';
 
 export function extractBackgroundColor(
   backgroundColor?: Color,
@@ -84,8 +84,19 @@ export function extractPadding(props: unknown & Paddings) {
   return padding;
 }
 
-export function extractFontFamily(font: Font) {
-  return {fontFamily: fonts[font]};
+export function extractFontFamily(font: Font, variant: Variant) {
+  const style: {
+    fontFamily: string;
+    letterSpacing?: number;
+    fontWeight?: 'bold';
+  } = {
+    fontFamily: fonts[font],
+  };
+  if (font === 'avenirBlack') {
+    style.letterSpacing = letterSpacing[variant];
+    style.fontWeight = 'bold';
+  }
+  return style;
 }
 
 export function extractFontSize(variant: Variant) {

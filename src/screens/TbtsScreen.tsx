@@ -33,7 +33,7 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
             <TouchableNativeFeedback
               onPress={() =>
                 navigation.navigate('lessons', {
-                  id: item?.id ?? '',
+                  tbtId: item?.id ?? '',
                   title: item?.title ?? '',
                 })
               }>

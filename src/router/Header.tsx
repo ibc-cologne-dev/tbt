@@ -1,15 +1,10 @@
 import React from 'react';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, SafeAreaView, View} from 'react-native';
 import {useTheme} from '../theme';
 import {spacing} from '../theme/spacing';
+import {Text} from '../core/Text';
 
 export const Header: React.FC<NativeStackHeaderProps> = ({
   route,
@@ -30,19 +25,46 @@ export const Header: React.FC<NativeStackHeaderProps> = ({
             onPress={() => navigation.goBack()}
             style={styles.back}>
             <Text
-              style={[styles.title, styles.backText]}>{`< ${back.title}`}</Text>
+              color="white100"
+              variant="sm"
+              fontFamily="avenirBlack">{`< ${getBackTitle(route.name)}`}</Text>
           </TouchableOpacity>
         ) : (
           <View style={styles.subtitle} />
         )}
 
-        <Text style={styles.title}>{title}</Text>
+        <Text
+          variant="lg"
+          textAlign="center"
+          fontFamily="avenirBlack"
+          color="white100">
+          {title}
+        </Text>
 
-        <Text style={styles.subtitle}>{subtitle}</Text>
+        <Text
+          variant="sm"
+          color="white100"
+          textAlign="right"
+          fontFamily="avenirBlack"
+          style={styles.subtitle}>
+          {subtitle}
+        </Text>
       </View>
     </SafeAreaView>
   );
 };
+
+function getBackTitle(routeName: string): string {
+  switch (routeName) {
+    case 'lessons':
+      return 'BOOKS';
+    case 'lessonResources':
+      return 'LESSONS';
+    case 'lessonsResource':
+      return 'RESOURCE';
+  }
+  return '';
+}
 
 const styles = StyleSheet.create({
   header: {
@@ -55,19 +77,7 @@ const styles = StyleSheet.create({
   back: {
     width: 100,
   },
-  backText: {
-    fontSize: 12,
-    textAlign: 'left',
-  },
-  title: {
-    color: '#ffffff',
-    textAlign: 'center',
-    fontSize: 18,
-  },
   subtitle: {
-    color: '#ffffff',
-    fontSize: 14,
     width: 120,
-    textAlign: 'right',
   },
 });

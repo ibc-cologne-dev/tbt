@@ -1,6 +1,6 @@
 export const colors = {
   petrolBlue: '#044953',
-  orange: '#e17b24',
+  orange: '#f16a25',
   salmon: '#b27d7d',
   sandyBrown: '#b2967d',
   darkKhaki: '#b2b27d',

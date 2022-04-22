@@ -2,21 +2,22 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import {graphql, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {LessonsScreenTbtQuery} from '../__generated__/LessonsScreenTbtQuery.graphql';
 import {RootStackParamList} from '../router';
 import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {LessonBlock} from '../core/LessonBlock';
 import {colors} from '../theme/colors';
+import {LessonsScreenQuery} from '../__generated__/LessonsScreenQuery.graphql';
 
 const LessonsQuery = graphql`
-  query LessonsScreenTbtQuery($id: ID!) {
-    lessons(id: $id) @required(action: NONE) {
+  query LessonsScreenQuery($tbtId: ID!) {
+    lessons(tbtId: $tbtId) @required(action: NONE) {
+      ...LessonResourcesScreen_lesson
+
       id @required(action: NONE)
       title @required(action: NONE)
       subtitle
       number @required(action: NONE)
       color
-      ...LessonResourcesScreen_lesson
     }
   }
 `;
@@ -30,11 +31,11 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
   route: {params},
   navigation,
 }) => {
-  const {id, title} = params;
+  const {tbtId, title} = params;
   useCustomScreenHeader(title);
 
-  const data = useLazyLoadQuery<LessonsScreenTbtQuery>(LessonsQuery, {
-    id,
+  const data = useLazyLoadQuery<LessonsScreenQuery>(LessonsQuery, {
+    tbtId,
   });
 
   if (!data) {
@@ -42,7 +43,7 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
   }
 
   // TODO: add argument to the graphql query to sort
-  const orderData = data.lessons
+  const orderedData = data.lessons
     .filter(l => l !== null)
     .sort((a, b) => {
       if (!a || !b) {
@@ -57,7 +58,7 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={orderData}
+        data={orderedData}
         horizontal={false}
         renderItem={({item, index}) => (
           <LessonBlock
@@ -68,6 +69,8 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
             indexColor={item?.color}
             onPress={() => {
               navigation.navigate('lessonResources', {
+                tbtId,
+                lessonId: item?.id!,
                 fragmentKey: item,
                 book: title,
               });

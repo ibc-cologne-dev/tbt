@@ -11,7 +11,7 @@ interface LessonBlockProps {
   headline?: string | null;
   subline?: string | null;
   onPress?: () => void;
-  isEven: boolean;
+  isEven?: boolean;
 }
 
 export const LessonBlock: React.FC<LessonBlockProps> = ({

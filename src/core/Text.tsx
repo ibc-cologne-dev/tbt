@@ -15,21 +15,19 @@ import {Font, Variant} from '../theme/typography';
 interface TextProps extends RNTextProps {
   color?: Color;
   fontFamily?: Font;
-  fontWeight?: TextStyle['fontWeight'];
   textAlign?: TextStyle['textAlign'];
   variant?: Variant;
 }
 
 export const Text: React.FC<TextProps> = ({
   fontFamily = 'avenir',
-  fontWeight = 'normal',
   variant = 'md',
   color = 'white100',
   textAlign = 'left',
   style,
   ...props
 }) => {
-  const fontFamilyStyle = extractFontFamily(fontFamily);
+  const fontFamilyStyle = extractFontFamily(fontFamily, variant);
   const fontSizeStyle = extractFontSize(variant);
   const fontColorStyle = extractFontColor(color);
 
@@ -40,7 +38,7 @@ export const Text: React.FC<TextProps> = ({
         fontFamilyStyle,
         fontSizeStyle,
         fontColorStyle,
-        {fontWeight, textAlign},
+        {textAlign},
       ]}
       {...props}
     />

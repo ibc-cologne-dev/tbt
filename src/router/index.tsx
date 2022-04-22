@@ -5,16 +5,18 @@ import {TbtsScreen} from '../screens/TbtsScreen';
 import {LessonsScreen} from '../screens/LessonsScreen';
 import {LessonScreen} from '../screens/LessonResourcesScreen';
 import {LessonResourceScreen} from '../screens/LessonResourceScreen';
-import {LessonResourcesScreen_lesson$key} from '../__generated__/LessonResourcesScreen_lesson.graphql';
 import {LessonResourceScreen_resource$key} from '../__generated__/LessonResourceScreen_resource.graphql';
+import {LessonResourcesScreen_lesson$key} from '../__generated__/LessonResourcesScreen_lesson.graphql';
 import {Header} from './Header';
 
 export type RootStackParamList = {
   tbts: undefined;
-  lessons: {id: string; title: string};
+  lessons: {tbtId: string; title: string};
   lessonResources: {
-    fragmentKey: LessonResourcesScreen_lesson$key | null;
+    tbtId: string;
+    lessonId: string;
     book: string;
+    fragmentKey: LessonResourcesScreen_lesson$key | null;
   };
   lessonResource: {
     fragmentKey: LessonResourceScreen_resource$key | null;

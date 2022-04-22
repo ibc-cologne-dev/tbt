@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<215678a5804a405c3464f2ae8a358b27>>
+ * @generated SignedSource<<d48c744fe948460827a4554e7da72e2b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,66 +12,78 @@ import { Fragment, ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type LessonResourcesScreen_lesson$data = {
   readonly id: string;
-  readonly title: string | null;
-  readonly resources: ReadonlyArray<{
-    readonly id: string;
-    readonly title: string | null;
-    readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_resource">;
-  } | null> | null;
+  readonly title: string;
+  readonly subtitle: string | null;
+  readonly number: number;
+  readonly color: string | null;
   readonly " $fragmentType": "LessonResourcesScreen_lesson";
-};
+} | null;
 export type LessonResourcesScreen_lesson$key = {
   readonly " $data"?: LessonResourcesScreen_lesson$data;
   readonly " $fragmentSpreads": FragmentRefs<"LessonResourcesScreen_lesson">;
 };
 
-const node: ReaderFragment = (function(){
-var v0 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "id",
-  "storageKey": null
-},
-v1 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "title",
-  "storageKey": null
-};
-return {
+const node: ReaderFragment = {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "LessonResourcesScreen_lesson",
   "selections": [
-    (v0/*: any*/),
-    (v1/*: any*/),
+    {
+      "kind": "RequiredField",
+      "field": {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "id",
+        "storageKey": null
+      },
+      "action": "NONE",
+      "path": "id"
+    },
+    {
+      "kind": "RequiredField",
+      "field": {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "title",
+        "storageKey": null
+      },
+      "action": "NONE",
+      "path": "title"
+    },
     {
       "alias": null,
       "args": null,
-      "concreteType": "Resource",
-      "kind": "LinkedField",
-      "name": "resources",
-      "plural": true,
-      "selections": [
-        (v0/*: any*/),
-        (v1/*: any*/),
-        {
-          "args": null,
-          "kind": "FragmentSpread",
-          "name": "LessonResourceScreen_resource"
-        }
-      ],
+      "kind": "ScalarField",
+      "name": "subtitle",
+      "storageKey": null
+    },
+    {
+      "kind": "RequiredField",
+      "field": {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "number",
+        "storageKey": null
+      },
+      "action": "NONE",
+      "path": "number"
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "color",
       "storageKey": null
     }
   ],
-  "type": "Lesson",
+  "type": "ShortLessonItem",
   "abstractKey": null
 };
-})();
 
-(node as any).hash = "d88c13bb2774561276d7d249294ce9cb";
+(node as any).hash = "a609a0bad8083521047a4bd959107fbf";
 
 export default node;

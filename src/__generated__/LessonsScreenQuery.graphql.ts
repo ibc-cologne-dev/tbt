@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e07bddffa5d7003e09281ecd2e17732b>>
+ * @generated SignedSource<<7401c66445c0dd70a1d72c2df6c23fa3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,10 +10,10 @@
 
 import { ConcreteRequest, Query } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type LessonsScreenTbtQuery$variables = {
-  id: string;
+export type LessonsScreenQuery$variables = {
+  tbtId: string;
 };
-export type LessonsScreenTbtQuery$data = {
+export type LessonsScreenQuery$data = {
   readonly lessons: ReadonlyArray<{
     readonly id: string;
     readonly title: string;
@@ -23,9 +23,9 @@ export type LessonsScreenTbtQuery$data = {
     readonly " $fragmentSpreads": FragmentRefs<"LessonResourcesScreen_lesson">;
   } | null>;
 } | null;
-export type LessonsScreenTbtQuery = {
-  variables: LessonsScreenTbtQuery$variables;
-  response: LessonsScreenTbtQuery$data;
+export type LessonsScreenQuery = {
+  variables: LessonsScreenQuery$variables;
+  response: LessonsScreenQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -33,14 +33,14 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "id"
+    "name": "tbtId"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "id",
-    "variableName": "id"
+    "name": "tbtId",
+    "variableName": "tbtId"
   }
 ],
 v2 = {
@@ -83,18 +83,23 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "LessonsScreenTbtQuery",
+    "name": "LessonsScreenQuery",
     "selections": [
       {
         "kind": "RequiredField",
         "field": {
           "alias": null,
           "args": (v1/*: any*/),
-          "concreteType": "Lesson",
+          "concreteType": "ShortLessonItem",
           "kind": "LinkedField",
           "name": "lessons",
           "plural": true,
           "selections": [
+            {
+              "args": null,
+              "kind": "FragmentSpread",
+              "name": "LessonResourcesScreen_lesson"
+            },
             {
               "kind": "RequiredField",
               "field": (v2/*: any*/),
@@ -114,12 +119,7 @@ return {
               "action": "NONE",
               "path": "lessons.number"
             },
-            (v6/*: any*/),
-            {
-              "args": null,
-              "kind": "FragmentSpread",
-              "name": "LessonResourcesScreen_lesson"
-            }
+            (v6/*: any*/)
           ],
           "storageKey": null
         },
@@ -134,12 +134,12 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "LessonsScreenTbtQuery",
+    "name": "LessonsScreenQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "Lesson",
+        "concreteType": "ShortLessonItem",
         "kind": "LinkedField",
         "name": "lessons",
         "plural": true,
@@ -148,68 +148,23 @@ return {
           (v3/*: any*/),
           (v4/*: any*/),
           (v5/*: any*/),
-          (v6/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "Resource",
-            "kind": "LinkedField",
-            "name": "resources",
-            "plural": true,
-            "selections": [
-              (v2/*: any*/),
-              (v3/*: any*/),
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "image_header",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "concreteType": "MediaType",
-                "kind": "LinkedField",
-                "name": "content",
-                "plural": true,
-                "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "type",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "value",
-                    "storageKey": null
-                  }
-                ],
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
+          (v6/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "7b282504cf6aa239e56171e00b4454fb",
+    "cacheID": "04abe07e18e7729a543bf6b2972625ee",
     "id": null,
     "metadata": {},
-    "name": "LessonsScreenTbtQuery",
+    "name": "LessonsScreenQuery",
     "operationKind": "query",
-    "text": "query LessonsScreenTbtQuery(\n  $id: ID!\n) {\n  lessons(id: $id) {\n    id\n    title\n    subtitle\n    number\n    color\n    ...LessonResourcesScreen_lesson\n  }\n}\n\nfragment LessonResourceScreen_resource on Resource {\n  title\n  image_header\n  content {\n    type\n    value\n  }\n}\n\nfragment LessonResourcesScreen_lesson on Lesson {\n  id\n  title\n  resources {\n    id\n    title\n    ...LessonResourceScreen_resource\n  }\n}\n"
+    "text": "query LessonsScreenQuery(\n  $tbtId: ID!\n) {\n  lessons(tbtId: $tbtId) {\n    ...LessonResourcesScreen_lesson\n    id\n    title\n    subtitle\n    number\n    color\n  }\n}\n\nfragment LessonResourcesScreen_lesson on ShortLessonItem {\n  id\n  title\n  subtitle\n  number\n  color\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f2375b808a67e368edebbe58a02bb1d0";
+(node as any).hash = "f795730818746c6d7ade98d50eaa561c";
 
 export default node;
