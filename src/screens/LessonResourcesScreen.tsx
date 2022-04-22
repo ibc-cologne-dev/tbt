@@ -3,7 +3,6 @@ import {
   FlatList,
   SafeAreaView,
   StyleSheet,
-  TextStyle,
   TouchableHighlight,
 } from 'react-native';
 import {graphql, useFragment, useLazyLoadQuery} from 'react-relay';
@@ -105,7 +104,6 @@ function getResourceStyle(typename: string): {
     backgroundColor: Color;
   };
   textStyle: {
-    fontWeight?: TextStyle['fontWeight'];
     fontFamily?: Font;
     variant: Variant;
   };

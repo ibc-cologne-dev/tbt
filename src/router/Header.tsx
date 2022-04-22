@@ -5,6 +5,7 @@ import {StyleSheet, TouchableOpacity, SafeAreaView, View} from 'react-native';
 import {useTheme} from '../theme';
 import {spacing} from '../theme/spacing';
 import {Text} from '../core/Text';
+import {BackIcon} from '../assets/svgs/BackIcon';
 
 export const Header: React.FC<NativeStackHeaderProps> = ({
   route,
@@ -24,10 +25,14 @@ export const Header: React.FC<NativeStackHeaderProps> = ({
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.back}>
+            <BackIcon />
             <Text
               color="white100"
               variant="sm"
-              fontFamily="avenirBlack">{`< ${getBackTitle(route.name)}`}</Text>
+              fontFamily="avenirBlack"
+              marginLeft={1}>
+              {getBackTitle(route.name)}
+            </Text>
           </TouchableOpacity>
         ) : (
           <View style={styles.subtitle} />
@@ -75,7 +80,9 @@ const styles = StyleSheet.create({
     height: 40,
   },
   back: {
-    width: 100,
+    width: 120,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   subtitle: {
     width: 120,

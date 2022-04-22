@@ -33,7 +33,7 @@ export const LessonBlock: React.FC<LessonBlockProps> = ({
     <TouchableOpacity onPress={onPress}>
       <Box style={styles.container}>
         <Box backgroundColor={color} style={styles.index}>
-          <Text color="white100" fontWeight="bold" variant="lg">
+          <Text color="white100" fontFamily="avenirBlack" variant="lg">
             {index ?? ' '}
           </Text>
         </Box>

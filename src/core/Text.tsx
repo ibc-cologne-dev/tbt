@@ -9,10 +9,13 @@ import {
   extractFontColor,
   extractFontFamily,
   extractFontSize,
+  extractMargin,
+  extractPadding,
 } from '../theme/helpers';
+import {Margins, Paddings} from '../theme/types';
 import {Font, Variant} from '../theme/typography';
 
-interface TextProps extends RNTextProps {
+interface TextProps extends RNTextProps, Margins, Paddings {
   color?: Color;
   fontFamily?: Font;
   textAlign?: TextStyle['textAlign'];
@@ -30,6 +33,8 @@ export const Text: React.FC<TextProps> = ({
   const fontFamilyStyle = extractFontFamily(fontFamily, variant);
   const fontSizeStyle = extractFontSize(variant);
   const fontColorStyle = extractFontColor(color);
+  const marginStyle = extractMargin(props);
+  const paddingStyle = extractPadding(props);
 
   return (
     <RNText
@@ -38,6 +43,8 @@ export const Text: React.FC<TextProps> = ({
         fontFamilyStyle,
         fontSizeStyle,
         fontColorStyle,
+        marginStyle,
+        paddingStyle,
         {textAlign},
       ]}
       {...props}

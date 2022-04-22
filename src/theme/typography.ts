@@ -9,7 +9,7 @@ export const fonts = {
 export type Font = keyof typeof fonts;
 
 export const variants = {
-  sm: {fontSize: 10, lineHeight: 14},
+  sm: {fontSize: 10, lineHeight: 16},
   md: {fontSize: 16, lineHeight: 24},
   lg: {fontSize: 18, lineHeight: 28},
   xl: {fontSize: 32},
