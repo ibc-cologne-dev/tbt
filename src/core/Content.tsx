@@ -31,7 +31,7 @@ export const Content: React.FC<ContentProps> = ({content, type, ...rest}) => {
 
 export const ContentText: React.FC<{content: string}> = ({content}) => {
   return (
-    <Box paddingHorizontal={2}>
+    <Box paddingHorizontal={4}>
       <MarkdownView>{content}</MarkdownView>
     </Box>
   );

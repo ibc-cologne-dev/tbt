@@ -1,0 +1,200 @@
+diff --git a/node_modules/markdown-it/dist/markdown-it.js b/node_modules/markdown-it/dist/markdown-it.js
+index b2b5123..16c5b11 100644
+--- a/node_modules/markdown-it/dist/markdown-it.js
++++ b/node_modules/markdown-it/dist/markdown-it.js
+@@ -48,6 +48,9 @@ module.exports = [
+   'head',
+   'header',
+   'hr',
++  'hr_closing',
++  'hr1',
++  'hr1_closing',
+   'html',
+   'iframe',
+   'legend',
+@@ -1226,6 +1229,9 @@ var _rules = [
+   [ 'fence',      require('./rules_block/fence'),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'blockquote', require('./rules_block/blockquote'), [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'hr',         require('./rules_block/hr'),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr_closing', require('./rules_block/hr_closing'), [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr1',        require('./rules_block/hr1'),        [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr1_closing',require('./rules_block/hr1_closing'),[ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'list',       require('./rules_block/list'),       [ 'paragraph', 'reference', 'blockquote' ] ],
+   [ 'reference',  require('./rules_block/reference') ],
+   [ 'heading',    require('./rules_block/heading'),    [ 'paragraph', 'reference', 'blockquote' ] ],
+diff --git a/node_modules/markdown-it/lib/parser_block.js b/node_modules/markdown-it/lib/parser_block.js
+index 10505c7..ba9ee87 100644
+--- a/node_modules/markdown-it/lib/parser_block.js
++++ b/node_modules/markdown-it/lib/parser_block.js
+@@ -8,7 +8,6 @@
+ 
+ var Ruler           = require('./ruler');
+ 
+-
+ var _rules = [
+   // First 2 params - rule name & source. Secondary array - list of rules,
+   // which can be terminated by this one.
+@@ -17,6 +16,10 @@ var _rules = [
+   [ 'fence',      require('./rules_block/fence'),      [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'blockquote', require('./rules_block/blockquote'), [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'hr',         require('./rules_block/hr'),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr',         require('./rules_block/hr'),         [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr_closing', require('./rules_block/hr_closing'), [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr1',        require('./rules_block/hr1'),        [ 'paragraph', 'reference', 'blockquote', 'list' ] ],
++  [ 'hr1_closing',require('./rules_block/hr1_closing'),[ 'paragraph', 'reference', 'blockquote', 'list' ] ],
+   [ 'list',       require('./rules_block/list'),       [ 'paragraph', 'reference', 'blockquote' ] ],
+   [ 'reference',  require('./rules_block/reference') ],
+   [ 'heading',    require('./rules_block/heading'),    [ 'paragraph', 'reference', 'blockquote' ] ],
+diff --git a/node_modules/markdown-it/lib/rules_block/hr1.js b/node_modules/markdown-it/lib/rules_block/hr1.js
+new file mode 100644
+index 0000000..772d423
+--- /dev/null
++++ b/node_modules/markdown-it/lib/rules_block/hr1.js
+@@ -0,0 +1,45 @@
++// Horizontal rule
++
++'use strict';
++
++var isSpace = require('../common/utils').isSpace;
++
++
++module.exports = function hr1(state, startLine, endLine, silent) {
++  var marker, cnt, ch, token,
++      pos = state.bMarks[startLine] + state.tShift[startLine],
++      max = state.eMarks[startLine];
++
++  // if it's indented more than 3 spaces, it should be a code block
++  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
++
++  marker = state.src.charCodeAt(pos++);
++
++  // Check hr marker
++  if (marker !== 0x2A/* * */ &&
++      marker !== 0x2B/* + */ &&
++      marker !== 0x5F/* _ */) {
++    return false;
++  }
++
++  // markers can be mixed with spaces, but there should be at least 3 of them
++
++  cnt = 1;
++  while (pos < max) {
++    ch = state.src.charCodeAt(pos++);
++    if (ch !== marker && !isSpace(ch)) { return false; }
++    if (ch === marker) { cnt++; }
++  }
++
++  if (cnt < 3) { return false; }
++
++  if (silent) { return true; }
++
++  state.line = startLine + 1;
++
++  token        = state.push('hr1', 'hr1', 0);
++  token.map    = [ startLine, state.line ];
++  token.markup = Array(cnt + 1).join(String.fromCharCode(marker));
++
++  return true;
++};
+diff --git a/node_modules/markdown-it/lib/rules_block/hr1_closing.js b/node_modules/markdown-it/lib/rules_block/hr1_closing.js
+new file mode 100644
+index 0000000..e0ed398
+--- /dev/null
++++ b/node_modules/markdown-it/lib/rules_block/hr1_closing.js
+@@ -0,0 +1,45 @@
++// Horizontal rule
++
++'use strict';
++
++var isSpace = require('../common/utils').isSpace;
++
++
++module.exports = function hr1_closing(state, startLine, endLine, silent) {
++  var marker, cnt, ch, token,
++      pos = state.bMarks[startLine] + state.tShift[startLine],
++      max = state.eMarks[startLine];
++
++  // if it's indented more than 3 spaces, it should be a code block
++  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
++
++  marker = state.src.charCodeAt(pos++);
++
++  // Check hr marker
++  if (marker !== 0x2A/* * */ &&
++      marker !== 0x24/* $ */ &&
++      marker !== 0x5F/* _ */) {
++    return false;
++  }
++
++  // markers can be mixed with spaces, but there should be at least 3 of them
++
++  cnt = 1;
++  while (pos < max) {
++    ch = state.src.charCodeAt(pos++);
++    if (ch !== marker && !isSpace(ch)) { return false; }
++    if (ch === marker) { cnt++; }
++  }
++
++  if (cnt < 3) { return false; }
++
++  if (silent) { return true; }
++
++  state.line = startLine + 1;
++
++  token        = state.push('hr1_closing', 'hr1_closing', 0);
++  token.map    = [ startLine, state.line ];
++  token.markup = Array(cnt + 1).join(String.fromCharCode(marker));
++
++  return true;
++};
+diff --git a/node_modules/markdown-it/lib/rules_block/hr_closing.js b/node_modules/markdown-it/lib/rules_block/hr_closing.js
+new file mode 100644
+index 0000000..74c3392
+--- /dev/null
++++ b/node_modules/markdown-it/lib/rules_block/hr_closing.js
+@@ -0,0 +1,45 @@
++// Horizontal rule
++
++'use strict';
++
++var isSpace = require('../common/utils').isSpace;
++
++
++module.exports = function hr_closing(state, startLine, endLine, silent) {
++  var marker, cnt, ch, token,
++      pos = state.bMarks[startLine] + state.tShift[startLine],
++      max = state.eMarks[startLine];
++
++  // if it's indented more than 3 spaces, it should be a code block
++  if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
++
++  marker = state.src.charCodeAt(pos++);
++
++  // Check hr marker
++  if (marker !== 0x2A/* * */ &&
++      marker !== 0x3D/* = */ &&
++      marker !== 0x5F/* _ */) {
++    return false;
++  }
++
++  // markers can be mixed with spaces, but there should be at least 3 of them
++
++  cnt = 1;
++  while (pos < max) {
++    ch = state.src.charCodeAt(pos++);
++    if (ch !== marker && !isSpace(ch)) { return false; }
++    if (ch === marker) { cnt++; }
++  }
++
++  if (cnt < 3) { return false; }
++
++  if (silent) { return true; }
++
++  state.line = startLine + 1;
++
++  token        = state.push('hr_closing', 'hr_closing', 0);
++  token.map    = [ startLine, state.line ];
++  token.markup = Array(cnt + 1).join(String.fromCharCode(marker));
++
++  return true;
++};

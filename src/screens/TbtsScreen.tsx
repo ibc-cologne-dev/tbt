@@ -42,7 +42,7 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
                 style={styles.card}
                 padding={2}
                 key={`tbt_${index}`}>
-                <Text variant="lg" fontWeight="bold" textAlign="center">
+                <Text variant="lg" fontFamily="avenirBlack" textAlign="center">
                   {item?.title ?? ''}
                 </Text>
               </Box>

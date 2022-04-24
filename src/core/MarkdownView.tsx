@@ -1,9 +1,13 @@
 import React, {ReactNode} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import Markdown, {ASTNode} from 'react-native-markdown-display';
+import {ClosingArch} from '../assets/svgs/ClosingArch';
+import {WeekOneArch} from '../assets/svgs/WeekOneArch';
+import {WeekTwoArch} from '../assets/svgs/WeekTwoArch';
 import {colors} from '../theme/colors';
 import {spacing} from '../theme/spacing';
 import {fonts, variants} from '../theme/typography';
+import {Box} from './Box';
 
 interface MarkdownViewProps {
   key?: string;
@@ -16,7 +20,26 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({children, key}) => (
 );
 
 const rules = {
-  // hr: (node: ASTNode) => <Separator style={styles.customHr} key={node.key} />,
+  hr: ({key}: ASTNode) => (
+    <Box key={key} marginTop={2} marginBottom={1}>
+      <WeekOneArch />
+    </Box>
+  ),
+  hr_closing: ({key}: ASTNode) => (
+    <Box key={key} marginTop={2} marginBottom={1}>
+      <ClosingArch color="petrolBlue" />
+    </Box>
+  ),
+  hr1: ({key}: ASTNode) => (
+    <Box key={key} marginTop={2} marginBottom={1}>
+      <WeekTwoArch />
+    </Box>
+  ),
+  hr1_closing: ({key}: ASTNode) => (
+    <Box key={key} marginTop={2} marginBottom={1}>
+      <ClosingArch color="lightPetrolBlue" />
+    </Box>
+  ),
   textLightBlue: (node: ASTNode, children: ReactNode) => (
     <Text key={node.key} style={styles.customTextLightBlue}>
       {children}

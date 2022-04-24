@@ -1,21 +1,21 @@
 diff --git a/node_modules/react-native-markdown-display/src/index.d.ts b/node_modules/react-native-markdown-display/src/index.d.ts
-index f0daf4a..916376c 100644
+index f0daf4a..b292fe6 100644
 --- a/node_modules/react-native-markdown-display/src/index.d.ts
 +++ b/node_modules/react-native-markdown-display/src/index.d.ts
-@@ -4,6 +4,13 @@ import Token from 'markdown-it/lib/token';
- import {ComponentType, ReactNode} from 'react';
- import {StyleSheet, View} from 'react-native';
+@@ -9,6 +9,13 @@ export function openUrl(url: string): void;
+ 
+ export function hasParents(parents: any[], type: string): boolean;
  
 +type Matchers = {
 +  [key: string]: {
 +    closingTag: string;
 +    type: string;
-+  }
-+}
++  };
++};
 +
- export function getUniqueID(): string;
- export function openUrl(url: string): void;
- 
+ export type RenderFunction = (
+   node: ASTNode,
+   children: ReactNode[],
 @@ -72,6 +79,7 @@ export function parser(
    source: string,
    renderer: (node: ASTNode) => View,
@@ -24,14 +24,14 @@ index f0daf4a..916376c 100644
  ): any;
  
  export function stringToTokens(
-@@ -83,6 +91,7 @@ export function tokensToAST(tokens: ReadonlyArray<Token>): ASTNode[];
- 
- export interface MarkdownProps {
-   rules?: RenderRules;
-+  matchers?: Matchers;
-   style?: StyleSheet.NamedStyles<any>;
-   renderer?: AstRenderer;
+@@ -88,6 +96,7 @@ export interface MarkdownProps {
    markdownit?: MarkdownIt;
+   mergeStyle?: boolean;
+   debugPrintTree?: boolean;
++  matchers?: Matchers;
+   onLinkPress?: (url: string) => boolean;
+ }
+ 
 diff --git a/node_modules/react-native-markdown-display/src/index.js b/node_modules/react-native-markdown-display/src/index.js
 index 59afec7..97718b5 100644
 --- a/node_modules/react-native-markdown-display/src/index.js
@@ -77,6 +77,31 @@ index 4e89793..06b8c6f 100644
    tokens = omitListItemParagraph(tokens);
  
    const astTree = tokensToAST(tokens);
+diff --git a/node_modules/react-native-markdown-display/src/lib/renderRules.js b/node_modules/react-native-markdown-display/src/lib/renderRules.js
+index 6f2ed8d..767548f 100644
+--- a/node_modules/react-native-markdown-display/src/lib/renderRules.js
++++ b/node_modules/react-native-markdown-display/src/lib/renderRules.js
+@@ -56,10 +56,19 @@ const renderRules = {
+     </View>
+   ),
+ 
+-  // Horizontal Rule
++  // Horizontal Rules
+   hr: (node, children, parent, styles) => (
+     <View key={node.key} style={styles._VIEW_SAFE_hr} />
+   ),
++  hr_closing: (node, children, parent, styles) => (
++    <View key={node.key} style={styles._VIEW_SAFE_hr} />
++  ),
++  hr1: (node, children, parent, styles) => (
++    <View key={node.key} style={styles._VIEW_SAFE_hr} />
++  ),
++  hr1_closing: (node, children, parent, styles) => (
++    <View key={node.key} style={styles._VIEW_SAFE_hr} />
++  ),
+ 
+   // Emphasis
+   strong: (node, children, parent, styles) => (
 diff --git a/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js b/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js
 index fb38e3d..13be745 100644
 --- a/node_modules/react-native-markdown-display/src/lib/util/groupTextTokens.js

@@ -9,6 +9,7 @@ import {Content} from '../core/Content';
 import {Join} from '../core/Join';
 import {Spacer} from '../core/Spacer';
 import {LessonBlock} from '../core/LessonBlock';
+import {spacing} from '../theme/spacing';
 
 const LessonResourceFragment = graphql`
   fragment LessonResourceScreen_resource on Resource {
@@ -67,9 +68,7 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
           />
         )}
 
-        <Spacer variant="lg" />
-
-        <View style={styles.listContainer}>
+        <View>
           <Join separator={<Spacer variant="lg" />}>
             {resource?.content?.map((content, index) => (
               <Content
@@ -94,10 +93,6 @@ const styles = StyleSheet.create({
   },
   imageHeader: {
     height: 240,
+    marginBottom: spacing[4],
   },
-  listContainer: {
-    paddingHorizontal: 8,
-  },
-  resource: {},
-  resourceImage: {},
 });
