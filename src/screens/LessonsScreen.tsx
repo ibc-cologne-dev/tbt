@@ -42,23 +42,10 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
     return null;
   }
 
-  // TODO: add argument to the graphql query to sort
-  const orderedData = data.lessons
-    .filter(l => l !== null)
-    .sort((a, b) => {
-      if (!a || !b) {
-        return 0;
-      }
-      if (a.number > b.number) {
-        return 1;
-      }
-      return -1;
-    });
-
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={orderedData}
+        data={data.lessons}
         horizontal={false}
         renderItem={({item, index}) => (
           <LessonBlock

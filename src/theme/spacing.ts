@@ -5,4 +5,5 @@ export const spacing = {
   4: 44,
   6: 66,
   8: 88,
+  16: 172,
 };

@@ -1,9 +1,12 @@
+import {Platform} from 'react-native';
 export type FontFamily = 'Avenir TBT' | 'Alisha';
 
+const isAndroid = Platform.OS === 'android';
+
 export const fonts = {
-  avenir: 'Avenir TBT',
-  avenirBlack: 'Avenir TBT',
-  alisha: 'Alisha',
+  avenir: !isAndroid ? 'Avenir TBT' : 'Avenir-45-Book-TBT',
+  avenirBlack: !isAndroid ? 'Avenir TBT' : 'Avenir-95-Black-TBT',
+  alisha: !isAndroid ? 'Alisha' : 'Alisha-Regular',
 };
 
 export type Font = keyof typeof fonts;

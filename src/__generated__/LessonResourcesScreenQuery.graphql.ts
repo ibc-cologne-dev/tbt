@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<28962f83a0a8030bf0fcce9acfbcdc81>>
+ * @generated SignedSource<<30d6e75491aec1bc0e6da75884faa435>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -176,12 +176,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "25627d18e33e95c99a84f24d4d41be3f",
+    "cacheID": "f516dfe6b141ecd9aceac64393551518",
     "id": null,
     "metadata": {},
     "name": "LessonResourcesScreenQuery",
     "operationKind": "query",
-    "text": "query LessonResourcesScreenQuery(\n  $lessonId: ID!\n  $tbtId: ID!\n) {\n  lessonResources(lessonId: $lessonId, tbtId: $tbtId) {\n    id\n    title\n    type {\n      title\n      id\n    }\n    ...LessonResourceScreen_resource\n  }\n}\n\nfragment LessonResourceScreen_resource on Resource {\n  title\n  image_header\n  content {\n    type\n    value\n  }\n}\n"
+    "text": "query LessonResourcesScreenQuery(\n  $lessonId: ID!\n  $tbtId: ID!\n) {\n  lessonResources(lessonId: $lessonId, tbtId: $tbtId) {\n    id\n    title\n    type {\n      title\n      id\n    }\n    ...LessonResourceScreen_resource\n  }\n}\n\nfragment LessonResourceScreen_resource on Resource {\n  title\n  image_header\n  content {\n    type\n    value\n  }\n  type {\n    title\n    id\n  }\n}\n"
   }
 };
 })();

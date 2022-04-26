@@ -1,15 +1,16 @@
-import React from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList, StyleSheet} from 'react-native';
 import {graphql, useFragment} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../router';
 import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {LazyLoadImage} from '../core/LazyLoadImage';
 import {Content} from '../core/Content';
-import {Join} from '../core/Join';
 import {Spacer} from '../core/Spacer';
 import {LessonBlock} from '../core/LessonBlock';
 import {spacing} from '../theme/spacing';
+import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
+import {Header} from '../router/Header';
 
 const LessonResourceFragment = graphql`
   fragment LessonResourceScreen_resource on Resource {
@@ -18,6 +19,9 @@ const LessonResourceFragment = graphql`
     content {
       type
       value
+    }
+    type @required(action: NONE) {
+      title @required(action: NONE)
     }
   }
 `;
@@ -39,6 +43,7 @@ type LessonResourceScreenProps = NativeStackScreenProps<
 
 export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
   route: {params},
+  navigation,
 }) => {
   const resource = useFragment(
     LessonResourceFragment,
@@ -48,39 +53,70 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
 
   useCustomScreenHeader(resource?.title ?? '');
 
+  const isBaseContent =
+    resource?.type.title === 'Study Guide' || resource?.type.title === 'Sermon';
+
+  useEffect(() => {
+    if (resource) {
+      navigation.setOptions({
+        header: props => (
+          <Header
+            {...props}
+            color={isBaseContent ? 'petrolBlue' : 'orange'}
+            fontFamily={isBaseContent ? 'avenirBlack' : 'alisha'}
+          />
+        ),
+      });
+    }
+  }, [isBaseContent, navigation, resource]);
+
   if (!resource || !lesson) {
     return null;
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <LessonBlock
-        index={lesson.number}
-        indexColor={lesson.color}
-        headline={lesson.title}
-        subline={lesson.subtitle}
-      />
-      <ScrollView contentContainerStyle={styles.scrollview}>
-        {!!resource?.image_header && (
-          <LazyLoadImage
-            firebaseUri={resource?.image_header}
-            imageStyle={styles.imageHeader}
-          />
-        )}
-
-        <View>
-          <Join separator={<Spacer variant="lg" />}>
-            {resource?.content?.map((content, index) => (
-              <Content
-                key={`content_${index}`}
-                content={content?.value ?? ''}
-                type={content?.type ?? 'text'}
+    <BaseScreenWrapper
+      style={styles.container}
+      color={isBaseContent ? 'petrolBlue' : 'orange'}>
+      <FlatList
+        style={styles.scrollview}
+        keyExtractor={(_, index) => `tbtItem_${index}`}
+        ListHeaderComponent={() => {
+          return (
+            <LessonBlock
+              index={lesson.number}
+              indexColor={lesson.color}
+              headline={lesson.title}
+              subline={lesson.subtitle}
+              onPress={() => navigation.pop(2)}
+            />
+          );
+        }}
+        ItemSeparatorComponent={() => <Spacer variant="lg" />}
+        data={resource.content}
+        renderItem={({item, index}) => (
+          <>
+            {resource.image_header && (
+              <LazyLoadImage
+                firebaseUri={resource?.image_header}
+                imageStyle={styles.imageHeader}
               />
-            ))}
-          </Join>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+            )}
+            {index === 0 &&
+              item?.type !== 'video' &&
+              !resource.image_header && (
+                <Spacer variant="lg" key={`spacer_${index}`} />
+              )}
+
+            <Content
+              key={`content_${index}`}
+              content={item?.value ?? ''}
+              type={item?.type ?? 'text'}
+            />
+          </>
+        )}
+      />
+    </BaseScreenWrapper>
   );
 };
 

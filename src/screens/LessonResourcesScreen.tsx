@@ -66,6 +66,7 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
         indexColor={lesson.color}
         headline={lesson.title}
         subline={lesson.subtitle}
+        onPress={() => navigation.pop()}
       />
 
       <FlatList

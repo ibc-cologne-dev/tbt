@@ -1,8 +1,7 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableNativeFeedback} from 'react-native';
-import {graphql, useLazyLoadQuery} from 'react-relay';
+import {graphql, useFragment} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import type {TbtsScreenTbtQuery} from '../__generated__/TbtsScreenTbtQuery.graphql';
 import {RootStackParamList} from '../router';
 import {Spacer} from '../core/Spacer';
 import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
@@ -10,7 +9,7 @@ import {Box} from '../core/Box';
 import {Text} from '../core/Text';
 
 const TbtsQuery = graphql`
-  query TbtsScreenTbtQuery {
+  fragment TbtsScreen_query on Query {
     tbts {
       id
       title
@@ -20,8 +19,9 @@ const TbtsQuery = graphql`
 
 type TbtsScreenProps = NativeStackScreenProps<RootStackParamList, 'tbts'>;
 
-export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
-  const data = useLazyLoadQuery<TbtsScreenTbtQuery>(TbtsQuery, {});
+export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation, route}) => {
+  const {tbtsFragmentKey} = route.params;
+  const data = useFragment(TbtsQuery, tbtsFragmentKey);
 
   return (
     <BaseScreenWrapper>

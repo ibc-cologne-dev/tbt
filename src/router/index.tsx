@@ -7,12 +7,15 @@ import {TbtsScreen} from '../screens/TbtsScreen';
 import {LessonsScreen} from '../screens/LessonsScreen';
 import {LessonScreen} from '../screens/LessonResourcesScreen';
 import {LessonResourceScreen} from '../screens/LessonResourceScreen';
+import {TbtsScreen_query$key} from '../__generated__/TbtsScreen_query.graphql';
 import {LessonResourceScreen_resource$key} from '../__generated__/LessonResourceScreen_resource.graphql';
 import {LessonResourcesScreen_lesson$key} from '../__generated__/LessonResourcesScreen_lesson.graphql';
 import {LessonResourceScreen_lesson$key} from '../__generated__/LessonResourceScreen_lesson.graphql';
+import {SplashScreen} from '../screens/SplashScreen';
 
 export type RootStackParamList = {
-  tbts: undefined;
+  splash: undefined;
+  tbts: {tbtsFragmentKey: TbtsScreen_query$key};
   lessons: {tbtId: string; title: string};
   lessonResources: {
     tbtId: string;
@@ -33,6 +36,13 @@ export const Navigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="splash"
+          component={SplashScreen}
+          options={{
+            header: () => null,
+          }}
+        />
         <Stack.Screen
           name="tbts"
           component={TbtsScreen}

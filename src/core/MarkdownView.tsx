@@ -14,7 +14,7 @@ interface MarkdownViewProps {
 }
 
 export const MarkdownView: React.FC<MarkdownViewProps> = ({children, key}) => (
-  <Markdown style={styles} rules={rules} key={key}>
+  <Markdown style={styles} rules={rules} key={`markdown${key}`}>
     {children}
   </Markdown>
 );
@@ -50,27 +50,37 @@ const rules = {
       {children}
     </Text>
   ),
+  em: (node: ASTNode) => (
+    <Text key={node.key} style={styles.em}>
+      {node.children[0].content}
+    </Text>
+  ),
 };
 
 const styles = StyleSheet.create({
   body: {
     fontFamily: fonts.avenir,
+    color: 'black',
     ...variants.md,
   },
   heading1: {
     fontFamily: fonts.avenir,
+    color: 'black',
     ...variants.xl,
   },
   heading2: {
     fontFamily: fonts.avenir,
+    color: 'black',
     ...variants.lg,
   },
   heading3: {
     fontFamily: fonts.avenir,
+    color: 'black',
     ...variants.md,
   },
   em: {
     fontFamily: fonts.alisha,
+    color: 'black',
     fontSize: 24,
     lineHeight: 32,
   },

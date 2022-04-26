@@ -28,7 +28,7 @@ type MediaType {
 
 type Query {
   tbts: [Tbt]
-  lessons(tbtId: ID!): [ShortLessonItem]
+  lessons(tbtId: ID!, sort: SORT): [ShortLessonItem]
   lessonResources(lessonId: ID!, tbtId: ID!): [Resource]
   lessonResource(lessonId: ID!, resourceId: ID!): Resource
 }
@@ -52,6 +52,11 @@ type ShortLessonItem {
   subtitle: String
   color: String
   number: Int
+}
+
+enum SORT {
+  asc
+  desc
 }
 
 type Tbt {

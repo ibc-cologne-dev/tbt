@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<85dcb1cd3cc2eb09de16b3e590d342c7>>
+ * @generated SignedSource<<2f8d26adb74224a40029fdc3a303c153>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -18,26 +18,31 @@ export type LessonResourceScreen_resource$data = {
     readonly type: Media | null;
     readonly value: string | null;
   } | null> | null;
+  readonly type: {
+    readonly title: string;
+  };
   readonly " $fragmentType": "LessonResourceScreen_resource";
-};
+} | null;
 export type LessonResourceScreen_resource$key = {
   readonly " $data"?: LessonResourceScreen_resource$data;
   readonly " $fragmentSpreads": FragmentRefs<"LessonResourceScreen_resource">;
 };
 
-const node: ReaderFragment = {
+const node: ReaderFragment = (function(){
+var v0 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "title",
+  "storageKey": null
+};
+return {
   "argumentDefinitions": [],
   "kind": "Fragment",
   "metadata": null,
   "name": "LessonResourceScreen_resource",
   "selections": [
-    {
-      "alias": null,
-      "args": null,
-      "kind": "ScalarField",
-      "name": "title",
-      "storageKey": null
-    },
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -69,12 +74,35 @@ const node: ReaderFragment = {
         }
       ],
       "storageKey": null
+    },
+    {
+      "kind": "RequiredField",
+      "field": {
+        "alias": null,
+        "args": null,
+        "concreteType": "ResourceType",
+        "kind": "LinkedField",
+        "name": "type",
+        "plural": false,
+        "selections": [
+          {
+            "kind": "RequiredField",
+            "field": (v0/*: any*/),
+            "action": "NONE",
+            "path": "type.title"
+          }
+        ],
+        "storageKey": null
+      },
+      "action": "NONE",
+      "path": "type"
     }
   ],
   "type": "Resource",
   "abstractKey": null
 };
+})();
 
-(node as any).hash = "456f825c4fc50db3b1f0f28290ace2ff";
+(node as any).hash = "0730bfbbb9f933944fd1a3323051dd1a";
 
 export default node;

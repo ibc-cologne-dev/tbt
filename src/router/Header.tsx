@@ -6,22 +6,32 @@ import {useTheme} from '../theme';
 import {spacing} from '../theme/spacing';
 import {Text} from '../core/Text';
 import {BackIcon} from '../assets/svgs/BackIcon';
+import {Color} from '../theme/colors';
+import {Font} from '../theme/typography';
 
-export const Header: React.FC<NativeStackHeaderProps> = ({
+interface HeaderProps extends NativeStackHeaderProps {
+  color?: Color;
+  fontFamily?: Font;
+}
+
+export const Header: React.FC<HeaderProps> = ({
   route,
   options,
   back,
   navigation,
+  color = 'petrolBlue',
+  fontFamily = 'avenirBlack',
 }) => {
   const {colors} = useTheme();
-  const title = getHeaderTitle(options, route.name);
+  const routeName = route.name;
+  const title = getHeaderTitle(options, routeName);
   // @ts-ignore
   const subtitle = route.params?.book ?? '';
 
   return (
-    <SafeAreaView style={{backgroundColor: colors.petrolBlue}}>
+    <SafeAreaView style={{backgroundColor: colors[color]}}>
       <View style={styles.header}>
-        {back ? (
+        {back && routeName !== 'tbts' ? (
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.back}>
@@ -41,7 +51,7 @@ export const Header: React.FC<NativeStackHeaderProps> = ({
         <Text
           variant="lg"
           textAlign="center"
-          fontFamily="avenirBlack"
+          fontFamily={fontFamily}
           color="white100">
           {title}
         </Text>
