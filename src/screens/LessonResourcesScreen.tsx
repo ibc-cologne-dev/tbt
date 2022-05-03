@@ -112,7 +112,11 @@ function getResourceStyle(typename: string): {
     variant: Variant;
   };
 } {
-  if (typename === 'Sermon' || typename === 'Study Guide') {
+  if (
+    typename === 'Sermon' ||
+    typename === 'Study Guide' ||
+    typename === 'Memory Verse'
+  ) {
     return {
       boxStyle: {
         backgroundColor: 'petrolBlue',

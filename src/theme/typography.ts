@@ -15,7 +15,7 @@ export const variants = {
   sm: {fontSize: 10, lineHeight: 16},
   md: {fontSize: 16, lineHeight: 24},
   lg: {fontSize: 18, lineHeight: 28},
-  xl: {fontSize: 32},
+  xl: {fontSize: 22},
 };
 
 export const letterSpacing: Record<keyof typeof variants, number> = {

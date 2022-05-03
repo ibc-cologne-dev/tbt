@@ -53,8 +53,7 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
 
   useCustomScreenHeader(resource?.title ?? '');
 
-  const isBaseContent =
-    resource?.type.title === 'Study Guide' || resource?.type.title === 'Sermon';
+  const isBaseContent = resource?.type.title !== 'Arrows';
 
   useEffect(() => {
     if (resource) {
