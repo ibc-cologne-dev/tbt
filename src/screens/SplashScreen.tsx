@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import {graphql, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {IBCCLogo} from '../assets/svgs/IBCCLogo';
 import {TbtLogo} from '../assets/svgs/TbtLogo';
@@ -9,25 +8,28 @@ import {Box} from '../core/Box';
 import {Text} from '../core/Text';
 import {RootStackParamList} from '../router';
 import {spacing} from '../theme/spacing';
-import {SplashScreenTbtQuery} from '../__generated__/SplashScreenTbtQuery.graphql';
-
-const TbtsQuery = graphql`
-  query SplashScreenTbtQuery {
-    ...TbtsScreen_query
-  }
-`;
+import TrackPlayer from 'react-native-track-player';
 
 type SplashScreenProps = NativeStackScreenProps<RootStackParamList, 'splash'>;
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({navigation}) => {
-  const data = useLazyLoadQuery<SplashScreenTbtQuery>(TbtsQuery, {});
+  // const data = useLazyLoadQuery<SplashScreenTbtQuery>(TbtsQuery, {});
 
   const navigate = useCallback(() => {
-    navigation.replace('tbts', {tbtsFragmentKey: data});
-  }, [data, navigation]);
+    navigation.replace('tabs');
+  }, [navigation]);
 
   useEffect(() => {
-    const timer = setTimeout(navigate, 2000);
+    let timer: NodeJS.Timeout;
+
+    const init = async () => {
+      await TrackPlayer.setupPlayer();
+      await TrackPlayer.updateOptions({
+        stopWithApp: true,
+      });
+      timer = setTimeout(navigate, 2000);
+    };
+    init();
 
     return () => clearTimeout(timer);
   }, [navigate]);

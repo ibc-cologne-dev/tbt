@@ -1,27 +1,31 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableNativeFeedback} from 'react-native';
-import {graphql, useFragment} from 'react-relay';
+import {graphql, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../router';
+import {HomeStackParamList} from '../router';
 import {Spacer} from '../core/Spacer';
 import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
+import {TbtsScreenQuery} from '../__generated__/TbtsScreenQuery.graphql';
 
 const TbtsQuery = graphql`
-  fragment TbtsScreen_query on Query {
-    tbts {
-      id
-      title
+  query TbtsScreenQuery {
+    tbts @required(action: NONE) {
+      id @required(action: NONE)
+      title @required(action: NONE)
     }
   }
 `;
 
-type TbtsScreenProps = NativeStackScreenProps<RootStackParamList, 'tbts'>;
+type TbtsScreenProps = NativeStackScreenProps<HomeStackParamList, 'tbts'>;
 
-export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation, route}) => {
-  const {tbtsFragmentKey} = route.params;
-  const data = useFragment(TbtsQuery, tbtsFragmentKey);
+export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
+  const data = useLazyLoadQuery<TbtsScreenQuery>(TbtsQuery, {});
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <BaseScreenWrapper>

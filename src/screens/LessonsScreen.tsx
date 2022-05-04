@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, FlatList} from 'react-native';
 import {graphql, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../router';
+import {HomeStackParamList} from '../router';
 import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {LessonBlock} from '../core/LessonBlock';
 import {colors} from '../theme/colors';
@@ -23,7 +23,7 @@ const LessonsQuery = graphql`
 `;
 
 type LessonsScreensProps = NativeStackScreenProps<
-  RootStackParamList,
+  HomeStackParamList,
   'lessons'
 >;
 

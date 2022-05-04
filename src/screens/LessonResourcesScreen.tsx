@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {graphql, useFragment, useLazyLoadQuery} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../router';
+import {HomeStackParamList} from '../router';
 import {LessonBlock} from '../core/LessonBlock';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
@@ -41,7 +41,7 @@ const lessonFragment = graphql`
 `;
 
 type LessonsScreenProps = NativeStackScreenProps<
-  RootStackParamList,
+  HomeStackParamList,
   'lessonResources'
 >;
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import storage from '@react-native-firebase/storage';
-// import FastImage, {ImageStyle} from 'react-native-fast-image';
-import {StyleProp, Image as FastImage, ImageStyle} from 'react-native';
+import FastImage, {ImageStyle} from 'react-native-fast-image';
+import {StyleProp /*,Image as FastImage, ImageStyle*/} from 'react-native';
 
 type FirebaseCardProps = {
   firebaseUri?: string | null;

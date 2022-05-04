@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {graphql, useFragment} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../router';
+import {HomeStackParamList} from '../router';
 import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {LazyLoadImage} from '../core/LazyLoadImage';
 import {Content} from '../core/Content';
@@ -37,7 +37,7 @@ const LessonFragment = graphql`
 `;
 
 type LessonResourceScreenProps = NativeStackScreenProps<
-  RootStackParamList,
+  HomeStackParamList,
   'lessonResource'
 >;
 
