@@ -4,6 +4,14 @@ directive @specifiedBy(
   url: String!
 ) on SCALAR
 
+type Audio {
+  id: ID!
+  file: String!
+  title: String!
+  audio_duration: Int!
+  artist: String!
+}
+
 type Lesson {
   id: ID!
   title: String
@@ -28,6 +36,7 @@ type MediaType {
 
 type Query {
   tbts: [Tbt]
+  audios: [Audio]
   lessons(tbtId: ID!, sort: SORT): [ShortLessonItem]
   lessonResources(lessonId: ID!, tbtId: ID!): [Resource]
   lessonResource(lessonId: ID!, resourceId: ID!): Resource

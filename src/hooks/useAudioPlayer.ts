@@ -1,13 +1,34 @@
 import {useCallback, useEffect, useState} from 'react';
-import TrackPlayer, {State, Track} from 'react-native-track-player';
+import TrackPlayer, {
+  State,
+  Track,
+  useTrackPlayerEvents,
+  Event,
+} from 'react-native-track-player';
 import storage from '@react-native-firebase/storage';
+
+const events = [Event.PlaybackState, Event.PlaybackError];
 
 export const useAudioPlayer = (tracks: Track[]) => {
   const [isLoading, setLoading] = useState(true);
   const [currentTrack, setCurrentTrack] = useState<number | undefined>();
-  const [status, setStatus] = useState<'stopped' | 'playing' | 'paused'>(
-    'stopped',
-  );
+  const [status, setStatus] = useState<State>(State.Connecting);
+
+  useTrackPlayerEvents(events, async ({type, state}) => {
+    if (type === Event.PlaybackError) {
+      console.warn('An error occured while playing the current track.');
+    }
+    if (
+      type === Event.PlaybackState &&
+      (state === State.Playing ||
+        state === State.Paused ||
+        state === State.Stopped)
+    ) {
+      const track = await TrackPlayer.getCurrentTrack();
+      setCurrentTrack(track);
+      state !== status && setStatus(state);
+    }
+  });
 
   useEffect(() => {
     if (!tracks) {
@@ -49,7 +70,7 @@ export const useAudioPlayer = (tracks: Track[]) => {
           await TrackPlayer.skip(index);
           await TrackPlayer.play();
           setCurrentTrack(index);
-          status !== 'playing' && setStatus('playing');
+          status !== State.Playing && setStatus(State.Playing);
         };
 
         if (state === State.Playing) {
@@ -57,7 +78,7 @@ export const useAudioPlayer = (tracks: Track[]) => {
             await playAnotherTrack();
           } else {
             await TrackPlayer.pause();
-            setStatus('paused');
+            setStatus(State.Paused);
           }
         } else {
           await playAnotherTrack();

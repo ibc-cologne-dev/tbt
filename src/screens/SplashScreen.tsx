@@ -8,7 +8,7 @@ import {Box} from '../core/Box';
 import {Text} from '../core/Text';
 import {RootStackParamList} from '../router';
 import {spacing} from '../theme/spacing';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, {Capability} from 'react-native-track-player';
 
 type SplashScreenProps = NativeStackScreenProps<RootStackParamList, 'splash'>;
 
@@ -26,6 +26,24 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({navigation}) => {
       await TrackPlayer.setupPlayer();
       await TrackPlayer.updateOptions({
         stopWithApp: true,
+        notificationCapabilities: [
+          Capability.Pause,
+          Capability.Play,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+        ],
+        capabilities: [
+          Capability.Pause,
+          Capability.Play,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+        ],
+        compactCapabilities: [
+          Capability.Pause,
+          Capability.Play,
+          Capability.SkipToNext,
+          Capability.SkipToPrevious,
+        ],
       });
       timer = setTimeout(navigate, 2000);
     };

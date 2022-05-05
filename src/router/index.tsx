@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import {Header} from './Header';
 import {TbtsScreen} from '../screens/TbtsScreen';
@@ -91,18 +91,14 @@ const TabStack = () => {
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarIcon: ({color, size}) => {
+        tabBarIcon: props => {
           return (
-            <Icon
-              name={route.name === 'home' ? 'home' : 'music'}
-              size={size}
-              color={color}
-            />
+            <Icon name={route.name === 'home' ? 'home' : 'music'} {...props} />
           );
         },
-        tabBarActiveTintColor: colors.plum,
+        tabBarActiveTintColor: colors.white100,
         tabBarInactiveTintColor: colors.white100,
-        tabBarActiveBackgroundColor: colors.petrolBlue,
+        tabBarActiveBackgroundColor: colors.lightPetrolBlue,
         tabBarInactiveBackgroundColor: colors.petrolBlue,
       })}>
       <Tab.Screen name="home" component={HomeStack} />
@@ -122,5 +118,20 @@ export const Navigator = () => {
         <Stack.Screen name="tabs" component={TabStack} />
       </Stack.Navigator>
     </NavigationContainer>
+  );
+};
+
+const Icon: React.FC<{
+  name: string;
+  focused: boolean;
+  size: number;
+  color: string;
+}> = ({name, size, color}) => {
+  return (
+    <FontAwesomeIcon
+      name={name === 'home' ? 'home' : 'music'}
+      size={size}
+      color={color}
+    />
   );
 };
