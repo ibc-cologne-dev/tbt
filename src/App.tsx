@@ -5,6 +5,7 @@ import RelayEnvironment from './utils';
 import {Navigator} from './router';
 import {LoadingIndicator} from './core/LoadingIndicator';
 import {useTheme} from './theme';
+import {FilesContextProvider} from './contexts/files';
 
 const App = () => {
   useTheme();
@@ -13,7 +14,9 @@ const App = () => {
     <PaperProvider theme={DefaultTheme}>
       <RelayEnvironmentProvider environment={RelayEnvironment}>
         <Suspense fallback={<LoadingIndicator />}>
-          <Navigator />
+          <FilesContextProvider>
+            <Navigator />
+          </FilesContextProvider>
         </Suspense>
       </RelayEnvironmentProvider>
     </PaperProvider>

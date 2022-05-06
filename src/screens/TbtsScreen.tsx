@@ -8,6 +8,8 @@ import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
 import {TbtsScreenQuery} from '../__generated__/TbtsScreenQuery.graphql';
+import {usePermissions} from '../hooks/usePermissions';
+import {useCachedFiles} from '../hooks/useCachedFiles';
 
 const TbtsQuery = graphql`
   query TbtsScreenQuery {
@@ -21,6 +23,9 @@ const TbtsQuery = graphql`
 type TbtsScreenProps = NativeStackScreenProps<HomeStackParamList, 'tbts'>;
 
 export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
+  usePermissions();
+  useCachedFiles();
+
   const data = useLazyLoadQuery<TbtsScreenQuery>(TbtsQuery, {});
 
   if (!data) {

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<074d33c685de9b4758e95fd357d7db16>>
+ * @generated SignedSource<<579dec669563d53cb4310d181771d69f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type AudiosScreenQuery$variables = {};
-export type AudiosScreenQuery$data = {
+export type useCachedFilesQuery$variables = {};
+export type useCachedFilesQuery$data = {
   readonly audios: ReadonlyArray<{
     readonly title: string;
     readonly file: string;
@@ -18,9 +18,9 @@ export type AudiosScreenQuery$data = {
     readonly audio_duration: number;
   } | null>;
 } | null;
-export type AudiosScreenQuery = {
-  variables: AudiosScreenQuery$variables;
-  response: AudiosScreenQuery$data;
+export type useCachedFilesQuery = {
+  variables: useCachedFilesQuery$variables;
+  response: useCachedFilesQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -57,7 +57,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AudiosScreenQuery",
+    "name": "useCachedFilesQuery",
     "selections": [
       {
         "kind": "RequiredField",
@@ -107,7 +107,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AudiosScreenQuery",
+    "name": "useCachedFilesQuery",
     "selections": [
       {
         "alias": null,
@@ -134,16 +134,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "9efc4756365b8e0cd0883a4d253acad5",
+    "cacheID": "8194986bc16a8d2737ae523a6d958ab5",
     "id": null,
     "metadata": {},
-    "name": "AudiosScreenQuery",
+    "name": "useCachedFilesQuery",
     "operationKind": "query",
-    "text": "query AudiosScreenQuery {\n  audios {\n    title\n    file\n    artist\n    audio_duration\n    id\n  }\n}\n"
+    "text": "query useCachedFilesQuery {\n  audios {\n    title\n    file\n    artist\n    audio_duration\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "e45917198804bf667561275281c61ecc";
+(node as any).hash = "4b7d696e118484dde7c2db53d3d27c88";
 
 export default node;

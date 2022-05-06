@@ -5,12 +5,10 @@ import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
 } from 'react-native-track-player';
-import storage from '@react-native-firebase/storage';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
 export const useAudioPlayer = (tracks: Track[]) => {
-  const [isLoading, setLoading] = useState(true);
   const [currentTrack, setCurrentTrack] = useState<number | undefined>();
   const [status, setStatus] = useState<State>(State.Connecting);
 
@@ -31,29 +29,15 @@ export const useAudioPlayer = (tracks: Track[]) => {
   });
 
   useEffect(() => {
-    if (!tracks) {
-      return;
+    if (tracks) {
+      const startPlayer = async () => {
+        const currentTracks = await TrackPlayer.getQueue();
+        if (currentTracks.length === 0) {
+          await TrackPlayer.add(tracks);
+        }
+      };
+      startPlayer();
     }
-
-    const getAudio = async () => {
-      let promises = [];
-      for (let track of tracks) {
-        promises.push(
-          storage()
-            .ref(track.url as string)
-            .getDownloadURL(),
-        );
-      }
-      const firebasePaths = await Promise.all(promises);
-      const tracksWithFirebasePath = tracks.map((track, index) => ({
-        ...track,
-        url: firebasePaths[index],
-      }));
-
-      await TrackPlayer.add(tracksWithFirebasePath);
-      setLoading(false);
-    };
-    getAudio();
   }, [tracks]);
 
   const playTrack = useCallback(
@@ -89,5 +73,5 @@ export const useAudioPlayer = (tracks: Track[]) => {
     [tracks.length, status, currentTrack],
   );
 
-  return {playTrack, currentTrack, isLoading, status};
+  return {playTrack, currentTrack, status};
 };

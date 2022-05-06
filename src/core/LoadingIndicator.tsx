@@ -1,11 +1,13 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
+import {colors} from '../theme/colors';
 
-export const LoadingIndicator: React.FC = () => {
+export const LoadingIndicator: React.FC = ({children}) => {
   return (
     <View style={styles.wrapper}>
-      <ActivityIndicator />
+      <ActivityIndicator color={colors.petrolBlue} />
+      {children}
     </View>
   );
 };
