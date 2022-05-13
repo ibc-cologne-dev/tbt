@@ -31,18 +31,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({navigation}) => {
           Capability.Play,
           Capability.SkipToNext,
           Capability.SkipToPrevious,
+          Capability.SeekTo,
         ],
         capabilities: [
           Capability.Pause,
           Capability.Play,
           Capability.SkipToNext,
           Capability.SkipToPrevious,
+          Capability.SeekTo,
         ],
         compactCapabilities: [
           Capability.Pause,
           Capability.Play,
           Capability.SkipToNext,
           Capability.SkipToPrevious,
+          Capability.SeekTo,
         ],
       });
       timer = setTimeout(navigate, 2000);

@@ -5,44 +5,69 @@ import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
 } from 'react-native-track-player';
+import storage from '@react-native-firebase/storage';
+import {AudiosScreensQuery$data} from '../__generated__/AudiosScreensQuery.graphql';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
-export const useAudioPlayer = (tracks: Track[]) => {
+export const useAudioPlayer = (data?: AudiosScreensQuery$data) => {
   const [currentTrack, setCurrentTrack] = useState<number | undefined>();
   const [status, setStatus] = useState<State>(State.Connecting);
 
-  useTrackPlayerEvents(events, async ({type, state}) => {
-    if (type === Event.PlaybackError) {
-      console.warn('An error occured while playing the current track.');
+  const tracks: Track[] | undefined = data?.audios?.map(audio => ({
+    url: '',
+    title: audio?.title ?? '',
+    duration: audio?.audio_duration ?? 0,
+    artist: audio?.artist ?? '',
+    artwork: 'https://i.imgur.com/CxVoe1a_d.webp?maxwidth=760&fidelity=grand',
+  }));
+
+  useTrackPlayerEvents(events, async event => {
+    if (event.type === Event.PlaybackError) {
+      console.warn('An error occured while playing the current track.', event);
     }
     if (
-      type === Event.PlaybackState &&
-      (state === State.Playing ||
-        state === State.Paused ||
-        state === State.Stopped)
+      event.type === Event.PlaybackState &&
+      (event.state === State.Playing ||
+        event.state === State.Paused ||
+        event.state === State.Stopped)
     ) {
       const track = await TrackPlayer.getCurrentTrack();
       setCurrentTrack(track);
-      state !== status && setStatus(state);
+      event.state !== status && setStatus(event.state);
     }
   });
 
   useEffect(() => {
-    if (tracks) {
+    if (data?.audios) {
       const startPlayer = async () => {
+        let promises = [];
+        for (let audio of data.audios) {
+          promises.push(
+            storage()
+              .ref(audio?.file as string)
+              .getDownloadURL(),
+          );
+        }
+        const urls = await Promise.all(promises);
+
+        const tracksWithUrl = tracks?.map((track, index) => ({
+          ...track,
+          url: urls[index],
+        }));
+
         const currentTracks = await TrackPlayer.getQueue();
-        if (currentTracks.length === 0) {
-          await TrackPlayer.add(tracks);
+        if (currentTracks.length === 0 && tracksWithUrl) {
+          await TrackPlayer.add(tracksWithUrl);
         }
       };
       startPlayer();
     }
-  }, [tracks]);
+  }, [data, tracks]);
 
   const playTrack = useCallback(
     (index: number) => {
-      if (index < 0 || index >= tracks.length) {
+      if (index < 0 || (tracks && index >= tracks.length)) {
         console.warn('Invalid track selected');
         return;
       }
@@ -70,7 +95,7 @@ export const useAudioPlayer = (tracks: Track[]) => {
       };
       play();
     },
-    [tracks.length, status, currentTrack],
+    [tracks, status, currentTrack],
   );
 
   return {playTrack, currentTrack, status};

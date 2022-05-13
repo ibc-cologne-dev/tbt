@@ -24,7 +24,6 @@ export const useCachedFiles = () => {
   const data = useLazyLoadQuery<useCachedFilesQuery>(cachedFilesQuery, {});
 
   useEffect(() => {
-    __DEV__ && console.log('data', {data, isLoading, audios});
     if (data && data.audios && !isLoading && audios.length <= 0 && !error) {
       setLoading(true);
 
@@ -44,27 +43,25 @@ export const useCachedFiles = () => {
           for (let [index, url] of urls.entries()) {
             const uri = await RNFetchBlob.config({
               fileCache: true,
-              path:
-                (Platform.OS === 'ios'
-                  ? RNFetchBlob.fs.dirs.MainBundleDir
-                  : RNFetchBlob.fs.dirs.DownloadDir) +
-                `/audio_${index + 1}.aac`,
+              appendExt: 'aac',
               addAndroidDownloads: {
                 mime: 'audio/aac',
                 useDownloadManager: true,
                 notification: false,
                 description: 'Audio downloaded from TBT',
-                path:
-                  RNFetchBlob.fs.dirs.DownloadDir + `/audio_${index + 1}.aac`,
+                path: `${RNFetchBlob.fs.dirs.DownloadDir}/${data.audios[
+                  index
+                ]?.title.replace(' ', '_')}.aac`,
               },
             })
               .fetch('GET', url)
+              .uploadProgress(progress => console.log('progress', progress))
               .then(res => {
-                __DEV__ && console.log('response', res.path());
+                __DEV__ && console.log(res.path());
                 return res.path();
               });
             paths.push({
-              url: uri,
+              url: Platform.OS === 'android' ? `file://${uri}` : uri,
               title: data.audios[index]?.title ?? '',
               duration: data.audios[index]?.audio_duration ?? 0,
               artist: data.audios[index]?.artist ?? '',

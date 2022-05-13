@@ -10,6 +10,9 @@ const playerService = async () => {
   TrackPlayer.addEventListener(Event.RemotePrevious, () =>
     TrackPlayer.skipToPrevious(),
   );
+  TrackPlayer.addEventListener(Event.RemoteSeek, ({position}) =>
+    TrackPlayer.seekTo(position),
+  );
 };
 
 export default playerService;

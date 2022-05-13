@@ -23,7 +23,7 @@ export type RootStackParamList = {
 
 export type TabParamList = {
   home: undefined;
-  audios: undefined;
+  songs: undefined;
 };
 
 export type HomeStackParamList = {
@@ -42,11 +42,16 @@ export type HomeStackParamList = {
   };
 };
 
+export type SongStackParamList = {
+  audios: undefined;
+};
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 const InnerStack = createNativeStackNavigator<HomeStackParamList>();
+const SongsStack = createNativeStackNavigator<SongStackParamList>();
 
-const HomeStack = () => {
+const HomeNavigator = () => {
   return (
     <InnerStack.Navigator>
       <InnerStack.Screen
@@ -85,6 +90,21 @@ const HomeStack = () => {
   );
 };
 
+const SongsNavigator = () => {
+  return (
+    <SongsStack.Navigator>
+      <SongsStack.Screen
+        name="audios"
+        component={AudiosScreen}
+        options={{
+          title: 'SONGS',
+          header: props => <Header {...props} />,
+        }}
+      />
+    </SongsStack.Navigator>
+  );
+};
+
 const TabStack = () => {
   return (
     <Tab.Navigator
@@ -101,8 +121,8 @@ const TabStack = () => {
         tabBarActiveBackgroundColor: colors.lightPetrolBlue,
         tabBarInactiveBackgroundColor: colors.petrolBlue,
       })}>
-      <Tab.Screen name="home" component={HomeStack} />
-      <Tab.Screen name="audios" component={AudiosScreen} />
+      <Tab.Screen name="home" component={HomeNavigator} />
+      <Tab.Screen name="songs" component={SongsNavigator} />
     </Tab.Navigator>
   );
 };

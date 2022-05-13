@@ -1,34 +1,39 @@
 import React from 'react';
-import {useFilesContext} from '../contexts/files';
 import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
 import {Box} from '../core/Box';
 import {AudioPlayer} from '../core/AudioPlayer';
 import {useAudioPlayer} from '../hooks/useAudioPlayer';
 import {State} from 'react-native-track-player';
-import {LoadingIndicator} from '../core/LoadingIndicator';
-import {Text} from '../core/Text';
+import {graphql, useLazyLoadQuery} from 'react-relay';
+import {AudiosScreensQuery} from '../__generated__/AudiosScreensQuery.graphql';
+
+const audiosQuery = graphql`
+  query AudiosScreensQuery {
+    audios @required(action: NONE) {
+      title @required(action: NONE)
+      file @required(action: NONE)
+      artist @required(action: NONE)
+      audio_duration @required(action: NONE)
+    }
+  }
+`;
 
 export const AudiosScreen: React.FC = () => {
-  const {audios, isLoading} = useFilesContext();
-  const {currentTrack, playTrack, status} = useAudioPlayer(audios);
+  const data = useLazyLoadQuery<AudiosScreensQuery>(audiosQuery, {});
+  const {currentTrack, playTrack, status} = useAudioPlayer(data);
+
+  if (!data?.audios) {
+    return null;
+  }
 
   return (
     <BaseScreenWrapper>
-      {isLoading && (
-        <>
-          <LoadingIndicator>
-            <Text color="petrolBlue" textAlign="center">
-              Loading songs...
-            </Text>
-          </LoadingIndicator>
-        </>
-      )}
       <Box>
-        {audios.map((track, index) => {
+        {data.audios.map((track, index) => {
           return (
             <AudioPlayer
               key={`audio_${index}`}
-              title={track.title}
+              title={track?.title ?? ''}
               state={
                 currentTrack === index && status === State.Playing
                   ? 'playing'
