@@ -12,7 +12,7 @@ import {LessonBlock} from '../core/LessonBlock';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
 import {Color, colors} from '../theme/colors';
-import {spacing} from '../theme/spacing';
+import {spacing, spacingHeight} from '../theme/spacing';
 import {Font, Variant} from '../theme/typography';
 import {LessonResourcesScreenQuery} from '../__generated__/LessonResourcesScreenQuery.graphql';
 
@@ -88,7 +88,6 @@ export const LessonScreen: React.FC<LessonsScreenProps> = ({
               <Box
                 key={`resource_${index}`}
                 {...boxStyle}
-                margin={1}
                 style={styles.button}>
                 <Text color="white100" textAlign="center" {...textStyle}>
                   {item?.title}
@@ -131,17 +130,19 @@ function getResourceStyle(typename: string): {
   };
 }
 
+const smallBlock = spacingHeight[1] * 0.1;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f7f7f7',
   },
   listContainer: {
-    paddingBottom: 16,
-    paddingHorizontal: spacing[4],
+    paddingBottom: spacingHeight[1],
+    paddingHorizontal: spacing[1],
   },
   button: {
-    minHeight: 80,
     justifyContent: 'center',
+    height: spacingHeight[1] - smallBlock * 2,
+    margin: smallBlock,
   },
 });

@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableHighlight} from 'react-native';
 import {Box} from './Box';
 import {Text} from './Text';
 import {colors, isColor, Color} from '../theme/colors';
-import {spacing} from '../theme/spacing';
+import {spacing, spacingHeight} from '../theme/spacing';
 
 interface LessonBlockProps {
   index?: number | null;
@@ -30,7 +30,7 @@ export const LessonBlock: React.FC<LessonBlockProps> = ({
   }
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableHighlight onPress={onPress} style={styles.button}>
       <Box style={styles.container}>
         <Box backgroundColor={color} style={styles.index}>
           <Text color="white100" fontFamily="avenirBlack" variant="lg">
@@ -44,22 +44,28 @@ export const LessonBlock: React.FC<LessonBlockProps> = ({
           <Text color="petrolBlue">{subline}</Text>
         </Box>
       </Box>
-    </TouchableOpacity>
+    </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: colors.white100,
+    height: spacingHeight[1],
+  },
   container: {
+    backgroundColor: colors.white100,
     flexDirection: 'row',
+    height: '100%',
   },
   index: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: spacing[4],
+    width: spacing[1],
   },
   body: {
     flex: 1,
-    paddingVertical: spacing[2],
-    paddingHorizontal: spacing[4],
+    paddingHorizontal: spacing[1],
+    justifyContent: 'center',
   },
 });

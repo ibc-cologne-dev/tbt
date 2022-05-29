@@ -15,10 +15,12 @@ import {LessonResourceScreen_lesson$key} from '../__generated__/LessonResourceSc
 import {SplashScreen} from '../screens/SplashScreen';
 import {AudiosScreen} from '../screens/AudiosScreen';
 import {colors} from '../theme/colors';
+import {spacingHeight} from '../theme/spacing';
+import {TbtsScreen_tbts$key} from '../__generated__/TbtsScreen_tbts.graphql';
 
 export type RootStackParamList = {
   splash: undefined;
-  tabs: undefined;
+  tabs: {fragmentKey: TbtsScreen_tbts$key | null};
 };
 
 export type TabParamList = {
@@ -27,7 +29,7 @@ export type TabParamList = {
 };
 
 export type HomeStackParamList = {
-  tbts: undefined;
+  tbts: {fragmentKey: TbtsScreen_tbts$key | null};
   lessons: {tbtId: string; title: string};
   lessonResources: {
     tbtId: string;
@@ -120,8 +122,12 @@ const TabStack = () => {
         tabBarInactiveTintColor: colors.white100,
         tabBarActiveBackgroundColor: colors.lightPetrolBlue,
         tabBarInactiveBackgroundColor: colors.petrolBlue,
+        tabBarStyle: {
+          height: spacingHeight[0.5],
+        },
       })}>
       <Tab.Screen name="home" component={HomeNavigator} />
+
       <Tab.Screen name="songs" component={SongsNavigator} />
     </Tab.Navigator>
   );

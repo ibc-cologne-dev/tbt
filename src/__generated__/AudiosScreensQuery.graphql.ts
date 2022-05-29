@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e5fd453dbc00ff8c02e0131355631bad>>
+ * @generated SignedSource<<bb4e0ca0d8fcba498ee82e0283eaf899>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -13,6 +13,7 @@ export type AudiosScreensQuery$variables = {};
 export type AudiosScreensQuery$data = {
   readonly audios: ReadonlyArray<{
     readonly title: string;
+    readonly subtitle: string;
     readonly file: string;
     readonly artist: string;
     readonly audio_duration: number;
@@ -35,17 +36,24 @@ v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "file",
+  "name": "subtitle",
   "storageKey": null
 },
 v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "artist",
+  "name": "file",
   "storageKey": null
 },
 v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "artist",
+  "storageKey": null
+},
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -79,17 +87,23 @@ return {
               "kind": "RequiredField",
               "field": (v1/*: any*/),
               "action": "NONE",
-              "path": "audios.file"
+              "path": "audios.subtitle"
             },
             {
               "kind": "RequiredField",
               "field": (v2/*: any*/),
               "action": "NONE",
-              "path": "audios.artist"
+              "path": "audios.file"
             },
             {
               "kind": "RequiredField",
               "field": (v3/*: any*/),
+              "action": "NONE",
+              "path": "audios.artist"
+            },
+            {
+              "kind": "RequiredField",
+              "field": (v4/*: any*/),
               "action": "NONE",
               "path": "audios.audio_duration"
             }
@@ -121,6 +135,7 @@ return {
           (v1/*: any*/),
           (v2/*: any*/),
           (v3/*: any*/),
+          (v4/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -134,16 +149,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "19c9e8a68bc03dc487450258d34fba4f",
+    "cacheID": "9e4b432cb1766314b1c01729a01ee0ae",
     "id": null,
     "metadata": {},
     "name": "AudiosScreensQuery",
     "operationKind": "query",
-    "text": "query AudiosScreensQuery {\n  audios {\n    title\n    file\n    artist\n    audio_duration\n    id\n  }\n}\n"
+    "text": "query AudiosScreensQuery {\n  audios {\n    title\n    subtitle\n    file\n    artist\n    audio_duration\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c0eeeefd2abe167d5f70d7d145eecbcc";
+(node as any).hash = "335fd6edfe40f4a09cd5af4559ba4199";
 
 export default node;

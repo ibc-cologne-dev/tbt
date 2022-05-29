@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<dad3530a66941082b1e0f50101252cd9>>
+ * @generated SignedSource<<4794c196d498293431bb4b8399fd612f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,16 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type TbtsScreenQuery$variables = {};
-export type TbtsScreenQuery$data = {
+import { FragmentRefs } from "relay-runtime";
+export type SplashScreenQuery$variables = {};
+export type SplashScreenQuery$data = {
   readonly tbts: ReadonlyArray<{
     readonly id: string;
     readonly title: string;
   } | null>;
+  readonly " $fragmentSpreads": FragmentRefs<"TbtsScreen_tbts">;
 } | null;
-export type TbtsScreenQuery = {
-  variables: TbtsScreenQuery$variables;
-  response: TbtsScreenQuery$data;
+export type SplashScreenQuery = {
+  variables: SplashScreenQuery$variables;
+  response: SplashScreenQuery$data;
 };
 
 const node: ConcreteRequest = (function(){
@@ -41,7 +43,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "TbtsScreenQuery",
+    "name": "SplashScreenQuery",
     "selections": [
       {
         "kind": "RequiredField",
@@ -70,6 +72,11 @@ return {
         },
         "action": "NONE",
         "path": "tbts"
+      },
+      {
+        "args": null,
+        "kind": "FragmentSpread",
+        "name": "TbtsScreen_tbts"
       }
     ],
     "type": "Query",
@@ -79,7 +86,7 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "TbtsScreenQuery",
+    "name": "SplashScreenQuery",
     "selections": [
       {
         "alias": null,
@@ -97,16 +104,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "727f9552dc0deb96811db8b25e04a946",
+    "cacheID": "db51f455b90849b9f7f6b07f2b2763ad",
     "id": null,
     "metadata": {},
-    "name": "TbtsScreenQuery",
+    "name": "SplashScreenQuery",
     "operationKind": "query",
-    "text": "query TbtsScreenQuery {\n  tbts {\n    id\n    title\n  }\n}\n"
+    "text": "query SplashScreenQuery {\n  tbts {\n    id\n    title\n  }\n  ...TbtsScreen_tbts\n}\n\nfragment TbtsScreen_tbts on Query {\n  tbts {\n    id\n    title\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ab64f1e3c6809059cad7fce11fb06793";
+(node as any).hash = "22c4c8fe0116b5df4f3b46beeb2f2fe5";
 
 export default node;

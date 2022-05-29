@@ -69,7 +69,7 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
     }
   }, [isBaseContent, navigation, resource]);
 
-  if (!resource || !lesson) {
+  if (!resource || !resource.content || !lesson) {
     return null;
   }
 
@@ -91,7 +91,7 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
             />
           );
         }}
-        ItemSeparatorComponent={() => <Spacer variant="lg" />}
+        ItemSeparatorComponent={() => <Spacer variant="sm" />}
         data={resource.content}
         renderItem={({item, index}) => (
           <>
@@ -101,17 +101,19 @@ export const LessonResourceScreen: React.FC<LessonResourceScreenProps> = ({
                 imageStyle={styles.imageHeader}
               />
             )}
-            {index === 0 &&
+            {/* {index === 0 &&
               item?.type !== 'video' &&
               !resource.image_header && (
-                <Spacer variant="lg" key={`spacer_${index}`} />
-              )}
+                <Spacer variant="sm" key={`spacer_${index}`} />
+              )} */}
 
             <Content
               key={`content_${index}`}
               content={item?.value ?? ''}
               type={item?.type ?? 'text'}
             />
+
+            {index === resource.content!.length - 1 && <Spacer variant="lg" />}
           </>
         )}
       />
@@ -124,10 +126,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollview: {
-    paddingBottom: 60,
+    paddingBottom: 120,
   },
   imageHeader: {
     height: 240,
-    marginBottom: spacing[4],
+    marginBottom: spacing[1],
   },
 });

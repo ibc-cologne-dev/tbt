@@ -11,7 +11,9 @@ import {AudiosScreensQuery$data} from '../__generated__/AudiosScreensQuery.graph
 const events = [Event.PlaybackState, Event.PlaybackError];
 
 export const useAudioPlayer = (data?: AudiosScreensQuery$data) => {
-  const [currentTrack, setCurrentTrack] = useState<number | undefined>();
+  const [currentTrack, setCurrentTrack] = useState<
+    {index: number; title: string} | undefined
+  >();
   const [status, setStatus] = useState<State>(State.Connecting);
 
   const tracks: Track[] | undefined = data?.audios?.map(audio => ({
@@ -30,10 +32,11 @@ export const useAudioPlayer = (data?: AudiosScreensQuery$data) => {
       event.type === Event.PlaybackState &&
       (event.state === State.Playing ||
         event.state === State.Paused ||
-        event.state === State.Stopped)
+        event.state === State.Stopped ||
+        event.state === State.Buffering)
     ) {
-      const track = await TrackPlayer.getCurrentTrack();
-      setCurrentTrack(track);
+      const index = await TrackPlayer.getCurrentTrack();
+      setCurrentTrack({index, title: tracks![index].title ?? ''});
       event.state !== status && setStatus(event.state);
     }
   });
@@ -67,36 +70,41 @@ export const useAudioPlayer = (data?: AudiosScreensQuery$data) => {
 
   const playTrack = useCallback(
     (index: number) => {
-      if (index < 0 || (tracks && index >= tracks.length)) {
-        console.warn('Invalid track selected');
-        return;
-      }
-
       const play = async () => {
         const state = await TrackPlayer.getState();
 
         const playAnotherTrack = async () => {
           await TrackPlayer.skip(index);
           await TrackPlayer.play();
-          setCurrentTrack(index);
-          status !== State.Playing && setStatus(State.Playing);
         };
 
         if (state === State.Playing) {
-          if (index !== currentTrack) {
+          if (index !== currentTrack?.index) {
             await playAnotherTrack();
           } else {
             await TrackPlayer.pause();
             setStatus(State.Paused);
           }
         } else {
-          await playAnotherTrack();
+          if (index !== currentTrack?.index) {
+            await playAnotherTrack();
+          } else {
+            await TrackPlayer.play();
+          }
         }
       };
       play();
     },
-    [tracks, status, currentTrack],
+    [currentTrack],
   );
 
-  return {playTrack, currentTrack, status};
+  const skipToNext = useCallback(() => {
+    TrackPlayer.skipToNext();
+  }, []);
+
+  const skipToPrevious = useCallback(() => {
+    TrackPlayer.skipToPrevious();
+  }, []);
+
+  return {playTrack, currentTrack, status, skipToNext, skipToPrevious};
 };

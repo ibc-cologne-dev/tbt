@@ -7,6 +7,7 @@ import {useCustomScreenHeader} from '../hooks/useCustomScreenHeader';
 import {LessonBlock} from '../core/LessonBlock';
 import {colors} from '../theme/colors';
 import {LessonsScreenQuery} from '../__generated__/LessonsScreenQuery.graphql';
+import {spacingHeight} from '../theme/spacing';
 
 const LessonsQuery = graphql`
   query LessonsScreenQuery($tbtId: ID!) {
@@ -46,7 +47,6 @@ export const LessonsScreen: React.FC<LessonsScreensProps> = ({
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data.lessons}
-        horizontal={false}
         renderItem={({item, index}) => (
           <LessonBlock
             key={`lesson_${index}`}
@@ -80,10 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 4,
     justifyContent: 'space-between',
-    height: 120,
+    height: spacingHeight[1],
     width: '48%',
-  },
-  lessonImage: {
-    height: 70,
   },
 });

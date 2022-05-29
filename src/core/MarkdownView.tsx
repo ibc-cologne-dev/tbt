@@ -21,22 +21,22 @@ export const MarkdownView: React.FC<MarkdownViewProps> = ({children, key}) => (
 
 const rules = {
   hr: ({key}: ASTNode) => (
-    <Box key={key} marginTop={2} marginBottom={1}>
+    <Box key={key} marginTop={0.5}>
       <WeekOneArch />
     </Box>
   ),
   hr_closing: ({key}: ASTNode) => (
-    <Box key={key} marginTop={2} marginBottom={1}>
+    <Box key={key} marginTop={0.5}>
       <ClosingArch color="petrolBlue" />
     </Box>
   ),
   hr1: ({key}: ASTNode) => (
-    <Box key={key} marginTop={2} marginBottom={1}>
+    <Box key={key} marginTop={0.5}>
       <WeekTwoArch />
     </Box>
   ),
   hr1_closing: ({key}: ASTNode) => (
-    <Box key={key} marginTop={2} marginBottom={1}>
+    <Box key={key} marginTop={0.5}>
       <ClosingArch color="lightPetrolBlue" />
     </Box>
   ),
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     lineHeight: 32,
   },
   customHr: {
-    marginVertical: spacing[4],
+    marginVertical: spacing[1],
   },
   customTextLightBlue: {
     color: colors.petrolBlue,

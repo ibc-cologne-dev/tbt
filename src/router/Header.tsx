@@ -1,13 +1,14 @@
 import React from 'react';
 import {getHeaderTitle} from '@react-navigation/elements';
 import {NativeStackHeaderProps} from '@react-navigation/native-stack';
-import {StyleSheet, TouchableOpacity, SafeAreaView, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useTheme} from '../theme';
-import {spacing} from '../theme/spacing';
+import {spacing, spacingHeight} from '../theme/spacing';
 import {Text} from '../core/Text';
 import {BackIcon} from '../assets/svgs/BackIcon';
 import {Color} from '../theme/colors';
 import {Font} from '../theme/typography';
+import {Box} from '../core/Box';
 
 interface HeaderProps extends NativeStackHeaderProps {
   color?: Color;
@@ -30,22 +31,21 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <SafeAreaView style={{backgroundColor: colors[color]}}>
-      <View style={styles.header}>
+      <Box style={styles.header}>
         {back && routeName !== 'tbts' ? (
           <TouchableOpacity
+            hitSlop={{bottom: 8, top: 8, left: 8, right: 8}}
             onPress={() => navigation.goBack()}
             style={styles.back}>
-            <BackIcon />
-            <Text
-              color="white100"
-              variant="sm"
-              fontFamily="avenirBlack"
-              marginLeft={1}>
+            <Box style={styles.backIcon}>
+              <BackIcon />
+            </Box>
+            <Text color="white100" variant="sm" fontFamily="avenirBlack">
               {getBackTitle(route.name)}
             </Text>
           </TouchableOpacity>
         ) : (
-          <View style={styles.subtitle} />
+          <Box style={styles.subtitle} />
         )}
 
         <Text
@@ -61,10 +61,11 @@ export const Header: React.FC<HeaderProps> = ({
           color="white100"
           textAlign="right"
           fontFamily="avenirBlack"
+          paddingRight={0.5}
           style={styles.subtitle}>
           {subtitle}
         </Text>
-      </View>
+      </Box>
     </SafeAreaView>
   );
 };
@@ -83,16 +84,20 @@ function getBackTitle(routeName: string): string {
 
 const styles = StyleSheet.create({
   header: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingHorizontal: spacing[2],
-    height: 40,
+    height: spacingHeight[1] - 28,
+    paddingBottom: 8,
   },
   back: {
     width: 120,
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  backIcon: {
+    width: spacing[1],
+    alignItems: 'center',
   },
   subtitle: {
     width: 120,

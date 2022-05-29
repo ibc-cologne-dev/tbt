@@ -1,17 +1,18 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableNativeFeedback} from 'react-native';
-import {graphql, useLazyLoadQuery} from 'react-relay';
+import {graphql, useFragment} from 'react-relay';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '../router';
 import {Spacer} from '../core/Spacer';
 import {BaseScreenWrapper} from '../core/BaseScreenWrapper';
 import {Box} from '../core/Box';
 import {Text} from '../core/Text';
-import {TbtsScreenQuery} from '../__generated__/TbtsScreenQuery.graphql';
-import {usePermissions} from '../hooks/usePermissions';
 
-const TbtsQuery = graphql`
-  query TbtsScreenQuery {
+import {usePermissions} from '../hooks/usePermissions';
+import {spacingHeight} from '../theme/spacing';
+
+const TbtsFragment = graphql`
+  fragment TbtsScreen_tbts on Query {
     tbts @required(action: NONE) {
       id @required(action: NONE)
       title @required(action: NONE)
@@ -21,10 +22,10 @@ const TbtsQuery = graphql`
 
 type TbtsScreenProps = NativeStackScreenProps<HomeStackParamList, 'tbts'>;
 
-export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
+export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation, route}) => {
   usePermissions();
 
-  const data = useLazyLoadQuery<TbtsScreenQuery>(TbtsQuery, {});
+  const data = useFragment(TbtsFragment, route.params.fragmentKey);
 
   if (!data) {
     return null;
@@ -32,10 +33,10 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
 
   return (
     <BaseScreenWrapper>
-      <Box paddingHorizontal={4} paddingVertical={4}>
+      <Box paddingHorizontal={1} paddingTop={1}>
         <FlatList
           data={data.tbts}
-          ItemSeparatorComponent={() => <Spacer variant="lg" />}
+          ItemSeparatorComponent={() => <Spacer variant="md" />}
           renderItem={({item, index}) => (
             <TouchableNativeFeedback
               onPress={() =>
@@ -47,7 +48,6 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
               <Box
                 backgroundColor="petrolBlue"
                 style={styles.card}
-                padding={2}
                 key={`tbt_${index}`}>
                 <Text variant="lg" fontFamily="avenirBlack" textAlign="center">
                   {item?.title ?? ''}
@@ -65,6 +65,9 @@ export const TbtsScreen: React.FC<TbtsScreenProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   card: {
     width: '100%',
+    height: spacingHeight[1],
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cardImage: {
     width: '100%',

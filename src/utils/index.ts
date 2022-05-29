@@ -35,7 +35,9 @@ async function fetchRelay(params: RequestParameters, variables: Variables) {
   return fetchGraphQL(params.text ?? '', variables);
 }
 
-export default new Environment({
+const environment = new Environment({
   network: Network.create(fetchRelay),
   store: new Store(new RecordSource()),
 });
+
+export default environment;

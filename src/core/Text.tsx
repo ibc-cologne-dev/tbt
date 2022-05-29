@@ -39,13 +39,13 @@ export const Text: React.FC<TextProps> = ({
   return (
     <RNText
       style={[
-        style,
         fontFamilyStyle,
         fontSizeStyle,
         fontColorStyle,
         marginStyle,
         paddingStyle,
         {textAlign},
+        style,
       ]}
       {...props}
     />
